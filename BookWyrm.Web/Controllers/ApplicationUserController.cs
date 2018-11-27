@@ -119,68 +119,47 @@ namespace BookWyrm.Web.Controllers
         //// POST: ApplicationUsers/Create
         //// To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         //// more details see https://go.microsoft.com/fwlink/?LinkId=317598.
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public async Task<ActionResult> Create(ApplicationUserCreateViewModel applicationUserCreateViewModel)
-        //{
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> Create(ApplicationUserCreateViewModel applicationUserCreateViewModel)
+        {
 
+            if (ModelState.IsValid)
+            {
+                var user = new ApplicationUser()
+                {
+                    FirstName = applicationUserCreateViewModel.FirstName,
+                    LastName = applicationUserCreateViewModel.LastName,
+                    Email = applicationUserCreateViewModel.Email,
+                    PhoneNumber = applicationUserCreateViewModel.PhoneNumber,
+                    Address = applicationUserCreateViewModel.Address,
+                    BirthDate = applicationUserCreateViewModel.BirthDate,
+                    Balance = applicationUserCreateViewModel.Balance,
+                    Barcode = applicationUserCreateViewModel.Barcode,
+                    HiddenNotes = applicationUserCreateViewModel.HiddenNotes
+                };
 
-        //    if (ModelState.IsValid)
-        //    {
-        //        //var SelectedCampus = db.Campuses.Single(camp => camp.CampusId == createUserViewModel.CampusId);
-        //        //var SelectedDepartment = db.Departments.Single(dept => dept.DepartmentId == createUserViewModel.DepartmentId);
-        //        //var SelectedCohort = db.Cohorts.SingleOrDefault(cohort => cohort.CohortId == createUserViewModel.CohortId);
+                var UserManager = new ApplicationUserManager(new UserStore<ApplicationUser>(_identityDb));
+                var result = await UserManager.CreateAsync(user, user.Id);
 
-        //        var user = new ApplicationUser()
-        //        {
-        //            FirstName = applicationUserCreateViewModel.FirstName,
-        //            LastName = applicationUserCreateViewModel.LastName,
-        //            Email = applicationUserCreateViewModel.Email,
-        //            Barcode = applicationUserCreateViewModel.Barcode
-        //        };
-        //        var UserManager = new ApplicationUserManager(new UserStore<ApplicationUser>(_identityDb));
+                if (result.Succeeded)
+                {
+                    UserManager.AddToRole(user.Id, applicationUserCreateViewModel.RoleId);
+                    return RedirectToAction("Index", "ApplicationUser");
+                }
+                else
+                {
+                    foreach (var error in result.Errors)
+                    {
+                        ModelState.AddModelError("", error);
+                    }
+                }
+            }
 
-        //        var result = await UserManager.CreateAsync(user, "Testing123!");
-        //        if (result.Succeeded)
-        //        {
-        //            UserManager.AddToRole(user.Id, applicationUserCreateViewModel.RoleId);
-        //            return RedirectToAction("Index", "ApplicationUsers");
-        //        }
-        //        else
-        //        {
-        //            foreach (var error in result.Errors)
-        //            {
-        //                ModelState.AddModelError("", error);
-        //            }
-        //        }
-        //    }
-
-
-
-        //    // If we got this far, something failed, redisplay form
-        //    ModelState.AddModelError("", "ERROR - unable to save user to DB for unknown reason. Redisplay the form with the same values...");
-
-        //    var viewModel = new ApplicationUserCreateViewModel
-        //    {
-        //        FirstName = applicationUserCreateViewModel.FirstName,
-        //        LastName = applicationUserCreateViewModel.LastName,
-        //        Email = applicationUserCreateViewModel.Email,
-        //        CampusId = applicationUserCreateViewModel.CampusId,
-        //        Campuses = _identityDb.Campuses.ToList(),
-        //        DepartmentId = applicationUserCreateViewModel.DepartmentId,
-        //        Departments = _identityDb.Departments.ToList(),
-        //        CohortId = applicationUserCreateViewModel.CohortId,
-        //        Cohorts = _identityDb.Cohorts.ToList(),
-        //        Barcode = applicationUserCreateViewModel.Barcode
-        //    };
-
-        //    return View(viewModel);
-
-
-
-
-
-        //}
+            // If we got this far, the model state was not valid, redisplay form
+            ModelState.AddModelError("", "ERROR - unable to save user to DB for unknown reason. Redisplay the form with the same values...");
+            return View(applicationUserCreateViewModel);
+        }
 
 
 

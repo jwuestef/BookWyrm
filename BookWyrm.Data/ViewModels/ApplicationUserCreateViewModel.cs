@@ -37,8 +37,9 @@ namespace BookWyrm.Data.ViewModels
         [Required(ErrorMessage = "Date of birth is required.")]
         public DateTime BirthDate { get; set; }
 
-        public int? Balance { get; set; }
+        public int Balance { get; set; }
 
+        [Required(ErrorMessage = "Barcode is required.")]
         public string Barcode { get; set; }
 
         [Display(Name = "Hidden Notes")]
