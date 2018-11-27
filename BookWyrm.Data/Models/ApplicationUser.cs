@@ -21,11 +21,15 @@ namespace BookWyrm.Data.Models
 
         public string Address { get; set; }
 
-        public string Barcode { get; set; }
-
         public int Balance { get; set; }
 
+        public string Barcode { get; set; }
+
         public string HiddenNotes { get; set; }
+
+        // Email - already part of the identity model
+
+        // PhoneNumber - already part of the identity model
 
 
 

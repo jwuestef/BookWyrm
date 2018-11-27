@@ -7,13 +7,13 @@ namespace BookWyrm.Data.MigrationHistory.IdentityMigrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.2.0-61023")]
-    public sealed partial class AddedLotsOfPropertiesToApplicationUser : IMigrationMetadata
+    public sealed partial class InitialCreate : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(AddedLotsOfPropertiesToApplicationUser));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(InitialCreate));
         
         string IMigrationMetadata.Id
         {
-            get { return "201811271859150_AddedLotsOfPropertiesToApplicationUser"; }
+            get { return "201811272000289_InitialCreate"; }
         }
         
         string IMigrationMetadata.Source

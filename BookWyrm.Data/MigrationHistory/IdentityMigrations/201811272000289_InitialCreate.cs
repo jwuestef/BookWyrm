@@ -35,6 +35,13 @@ namespace BookWyrm.Data.MigrationHistory.IdentityMigrations
                 c => new
                     {
                         Id = c.String(nullable: false, maxLength: 128),
+                        FirstName = c.String(nullable: false, maxLength: 255),
+                        LastName = c.String(nullable: false, maxLength: 255),
+                        BirthDate = c.DateTime(nullable: false),
+                        Address = c.String(nullable: false, maxLength: 255),
+                        Balance = c.Int(nullable: false),
+                        Barcode = c.String(nullable: false, maxLength: 255),
+                        HiddenNotes = c.String(maxLength: 2000),
                         Email = c.String(maxLength: 256),
                         EmailConfirmed = c.Boolean(nullable: false),
                         PasswordHash = c.String(),
