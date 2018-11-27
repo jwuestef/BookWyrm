@@ -17,13 +17,13 @@ namespace BookWyrm.Web.Controllers
     public class ApplicationUserController : Controller
     {
 
-
-
         private IdentityDb _identityDb = new IdentityDb();
         public ApplicationUserManager UserManager { get; private set; }
 
 
+
         // GET: ApplicationUsers
+        [HttpGet]
         public ActionResult Index()
         {
             // When we visit this User Management page, make sure the appropriate roles exist in the database
@@ -80,6 +80,7 @@ namespace BookWyrm.Web.Controllers
 
 
         //// GET: ApplicationUsers/Details/5
+        // //[HttpGet]   - STILL DO THIS ELSEWHERE
         //public ActionResult Details(string id)
         //{
         //    if (id == null)
@@ -96,23 +97,22 @@ namespace BookWyrm.Web.Controllers
 
 
 
-        //// GET: ApplicationUsers/Create
-        //public ActionResult Create()
-        //{
+        // GET: ApplicationUsers/Create
+        [HttpGet]
+        public ActionResult Create()
+        {
 
-        //    var roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(_identityDb));
-        //    var roles = roleManager.Roles.ToList();
+            var roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(_identityDb));
+            var roles = roleManager.Roles.ToList();
 
-        //    var viewModel = new CreateUserViewModel
-        //    {
-        //        Campuses = _identityDb.Campuses.ToList(),
-        //        Departments = _identityDb.Departments.ToList(),
-        //        Cohorts = _identityDb.Cohorts.ToList(),
-        //        Roles = roles
-        //    };
+            var viewModel = new ApplicationUserCreateViewModel
+            {
+                Roles = roles,
+                Balance = 0
+            };
 
-        //    return View(viewModel);
-        //}
+            return View(viewModel);
+        }
 
 
 
@@ -121,7 +121,7 @@ namespace BookWyrm.Web.Controllers
         //// more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         //[HttpPost]
         //[ValidateAntiForgeryToken]
-        //public async Task<ActionResult> Create(CreateUserViewModel createUserViewModel)
+        //public async Task<ActionResult> Create(ApplicationUserCreateViewModel applicationUserCreateViewModel)
         //{
 
 
@@ -133,17 +133,17 @@ namespace BookWyrm.Web.Controllers
 
         //        var user = new ApplicationUser()
         //        {
-        //            FirstName = createUserViewModel.FirstName,
-        //            LastName = createUserViewModel.LastName,
-        //            Email = createUserViewModel.Email,
-        //            Barcode = createUserViewModel.Barcode
+        //            FirstName = applicationUserCreateViewModel.FirstName,
+        //            LastName = applicationUserCreateViewModel.LastName,
+        //            Email = applicationUserCreateViewModel.Email,
+        //            Barcode = applicationUserCreateViewModel.Barcode
         //        };
         //        var UserManager = new ApplicationUserManager(new UserStore<ApplicationUser>(_identityDb));
 
         //        var result = await UserManager.CreateAsync(user, "Testing123!");
         //        if (result.Succeeded)
         //        {
-        //            UserManager.AddToRole(user.Id, createUserViewModel.RoleId);
+        //            UserManager.AddToRole(user.Id, applicationUserCreateViewModel.RoleId);
         //            return RedirectToAction("Index", "ApplicationUsers");
         //        }
         //        else
@@ -160,19 +160,18 @@ namespace BookWyrm.Web.Controllers
         //    // If we got this far, something failed, redisplay form
         //    ModelState.AddModelError("", "ERROR - unable to save user to DB for unknown reason. Redisplay the form with the same values...");
 
-        //    var viewModel = new CreateUserViewModel
+        //    var viewModel = new ApplicationUserCreateViewModel
         //    {
-        //        UserName = createUserViewModel.UserName,
-        //        FirstName = createUserViewModel.FirstName,
-        //        LastName = createUserViewModel.LastName,
-        //        Email = createUserViewModel.Email,
-        //        CampusId = createUserViewModel.CampusId,
+        //        FirstName = applicationUserCreateViewModel.FirstName,
+        //        LastName = applicationUserCreateViewModel.LastName,
+        //        Email = applicationUserCreateViewModel.Email,
+        //        CampusId = applicationUserCreateViewModel.CampusId,
         //        Campuses = _identityDb.Campuses.ToList(),
-        //        DepartmentId = createUserViewModel.DepartmentId,
+        //        DepartmentId = applicationUserCreateViewModel.DepartmentId,
         //        Departments = _identityDb.Departments.ToList(),
-        //        CohortId = createUserViewModel.CohortId,
+        //        CohortId = applicationUserCreateViewModel.CohortId,
         //        Cohorts = _identityDb.Cohorts.ToList(),
-        //        Barcode = createUserViewModel.Barcode
+        //        Barcode = applicationUserCreateViewModel.Barcode
         //    };
 
         //    return View(viewModel);
