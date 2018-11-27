@@ -8,8 +8,8 @@ using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
-using BookWyrm.Web.Models;
-using BookWyrm.Data;
+using BookWyrm.Data.Models;
+using BookWyrm.Data.ViewModels;
 
 namespace BookWyrm.Web.Controllers
 {

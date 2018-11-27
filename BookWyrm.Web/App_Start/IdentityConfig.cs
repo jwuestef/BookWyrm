@@ -10,8 +10,8 @@ using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
 using Microsoft.Owin.Security;
-using BookWyrm.Web.Models;
-using BookWyrm.Data;
+using BookWyrm.Data.Models;
+using BookWyrm.Data.DataContexts;
 
 namespace BookWyrm.Web
 {

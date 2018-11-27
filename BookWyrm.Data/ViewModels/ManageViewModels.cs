@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNet.Identity;
 using Microsoft.Owin.Security;
 
-namespace BookWyrm.Web.Models
+namespace BookWyrm.Data.ViewModels
 {
     public class IndexViewModel
     {

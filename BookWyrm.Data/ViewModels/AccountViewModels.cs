@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace BookWyrm.Web.Models
+namespace BookWyrm.Data.ViewModels
 {
     public class ExternalLoginConfirmationViewModel
     {

@@ -5,8 +5,8 @@ using Microsoft.Owin;
 using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.Google;
 using Owin;
-using BookWyrm.Web.Models;
-using BookWyrm.Data;
+using BookWyrm.Data.Models;
+using BookWyrm.Data.DataContexts;
 
 namespace BookWyrm.Web
 {
