@@ -95,6 +95,7 @@
     <Compile Include="ViewModels\AccountViewModels.cs" />
     <Compile Include="ViewModels\ApplicationUserCreateViewModel.cs" />
     <Compile Include="ViewModels\ApplicationUserDeleteViewModel.cs" />
+    <Compile Include="ViewModels\ApplicationUserEditViewModel.cs" />
     <Compile Include="ViewModels\ApplicationUserDetailsViewModel.cs" />
     <Compile Include="ViewModels\ApplicationUserIndexViewModel.cs" />
     <Compile Include="ViewModels\ManageViewModels.cs" />

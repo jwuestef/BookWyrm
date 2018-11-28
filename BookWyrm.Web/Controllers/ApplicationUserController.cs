@@ -97,30 +97,28 @@ namespace BookWyrm.Web.Controllers
 
             if (foundUser == null)
                 return HttpNotFound();
-            else
-            {
-                // The user was found, but we only have a role ID - we need to get the name of their role
-                string roleName = "";
-                IdentityUserRole foundRole = foundUser.Roles.FirstOrDefault();
-                if (foundRole != null)
-                    roleName = _identityDb.Roles.Find(foundRole.RoleId).Name;
+             
+            // The user was found, but we only have a role ID - we need to get the name of their role
+            string roleName = "";
+            IdentityUserRole foundRole = foundUser.Roles.FirstOrDefault();
+            if (foundRole != null)
+                roleName = _identityDb.Roles.Find(foundRole.RoleId).Name;
 
-                ApplicationUserDetailsViewModel applicationUserDetailsViewModel = new ApplicationUserDetailsViewModel()
-                {
-                    Id = id,
-                    FirstName = foundUser.FirstName,
-                    LastName = foundUser.LastName,
-                    Email = foundUser.Email,
-                    PhoneNumber = foundUser.PhoneNumber,
-                    Address = foundUser.Address,
-                    BirthDate = foundUser.BirthDate,
-                    Balance = foundUser.Balance,
-                    Barcode = foundUser.Barcode,
-                    HiddenNotes = foundUser.HiddenNotes,
-                    RoleName = roleName
-                };
-                return View(applicationUserDetailsViewModel);
-            }
+            ApplicationUserDetailsViewModel applicationUserDetailsViewModel = new ApplicationUserDetailsViewModel()
+            {
+                Id = id,
+                FirstName = foundUser.FirstName,
+                LastName = foundUser.LastName,
+                Email = foundUser.Email,
+                PhoneNumber = foundUser.PhoneNumber,
+                Address = foundUser.Address,
+                BirthDate = foundUser.BirthDate,
+                Balance = foundUser.Balance,
+                Barcode = foundUser.Barcode,
+                HiddenNotes = foundUser.HiddenNotes,
+                RoleName = roleName
+            };
+            return View(applicationUserDetailsViewModel);
         }
 
 
@@ -144,9 +142,9 @@ namespace BookWyrm.Web.Controllers
 
 
 
-        //// POST: ApplicationUsers/Create
-        //// To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        //// more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+        // POST: ApplicationUsers/Create
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Create(ApplicationUserCreateViewModel applicationUserCreateViewModel)
@@ -173,7 +171,10 @@ namespace BookWyrm.Web.Controllers
 
                 if (result.Succeeded)
                 {
-                    UserManager.AddToRole(user.Id, applicationUserCreateViewModel.RoleId);
+                    // The .AddToRole method requires the NAME of the role, not the ID
+                    // We need to query the DB to get the name
+                    string roleName = _identityDb.Roles.Find(applicationUserCreateViewModel.RoleId).Name;
+                    UserManager.AddToRole(user.Id, roleName);
                     return RedirectToAction("Index", "ApplicationUser");
                 }
                 else
@@ -193,39 +194,116 @@ namespace BookWyrm.Web.Controllers
 
 
 
-        //// GET: ApplicationUsers/Edit/5
-        // //[HttpGet]   - STILL DO THIS ELSEWHERE
-        //public ActionResult Edit(string id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-        //    }
-        //    ApplicationUser applicationUser = _identityDb.Users.Find(id);
-        //    if (applicationUser == null)
-        //    {
-        //        return HttpNotFound();
-        //    }
-        //    return View(applicationUser);
-        //}
+        // GET: ApplicationUsers/Edit/5
+        [HttpGet]
+        public ActionResult Edit(string id)
+        {
+            if (id == null)
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+
+            ApplicationUser foundUser = _identityDb.Users.Find(id);
+
+            if (foundUser == null)
+                return HttpNotFound();
+
+            // The user was found, but we only have a role ID - we need to get the name of their role
+            // Since we are saving the role ID later in the code, we need to account for the case where the role wasn't found - null
+            string roleName = "";
+            IdentityUserRole foundRole = foundUser.Roles.FirstOrDefault();
+            if (foundRole != null)
+                roleName = _identityDb.Roles.Find(foundRole.RoleId).Name;
+            else
+                foundRole = new IdentityUserRole()
+                {
+                    RoleId = "",
+                    UserId = ""
+                };
+
+            ApplicationUserEditViewModel applicationUserEditViewModel = new ApplicationUserEditViewModel()
+            {
+                Id = id,
+                FirstName = foundUser.FirstName,
+                LastName = foundUser.LastName,
+                Email = foundUser.Email,
+                PhoneNumber = foundUser.PhoneNumber,
+                Address = foundUser.Address,
+                BirthDate = foundUser.BirthDate,
+                Balance = foundUser.Balance,
+                Barcode = foundUser.Barcode,
+                HiddenNotes = foundUser.HiddenNotes,
+                RoleId = foundRole.RoleId,
+                OriginalRoleId = foundRole.RoleId,
+                Roles = _identityDb.Roles.ToList()
+            };
+            return View(applicationUserEditViewModel);
+        }
 
 
 
-        //// POST: ApplicationUsers/Edit/5
-        //// To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        //// more details see https://go.microsoft.com/fwlink/?LinkId=317598.
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public ActionResult Edit([Bind(Include = "Id,FirstName,LastName,Barcode,Email,EmailConfirmed,PasswordHash,SecurityStamp,PhoneNumber,PhoneNumberConfirmed,TwoFactorEnabled,LockoutEndDateUtc,LockoutEnabled,AccessFailedCount,UserName")] ApplicationUser applicationUser)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        _identityDb.Entry(applicationUser).State = EntityState.Modified;
-        //        _identityDb.SaveChanges();
-        //        return RedirectToAction("Index");
-        //    }
-        //    return View(applicationUser);
-        //}
+        // POST: ApplicationUsers/Edit/5
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> Edit(ApplicationUserEditViewModel applicationUserEditViewModel)
+        {
+            if (ModelState.IsValid)
+            {
+                ApplicationUser foundUserToUpdate = _identityDb.Users.Find(applicationUserEditViewModel.Id);
+
+                if (foundUserToUpdate == null)
+                    return HttpNotFound();
+
+                foundUserToUpdate.FirstName = applicationUserEditViewModel.FirstName;
+                foundUserToUpdate.LastName = applicationUserEditViewModel.LastName;
+                foundUserToUpdate.Email = applicationUserEditViewModel.Email;
+                foundUserToUpdate.UserName = applicationUserEditViewModel.Email;
+                foundUserToUpdate.PhoneNumber = applicationUserEditViewModel.PhoneNumber;
+                foundUserToUpdate.Address = applicationUserEditViewModel.Address;
+                foundUserToUpdate.BirthDate = applicationUserEditViewModel.BirthDate;
+                foundUserToUpdate.Balance = applicationUserEditViewModel.Balance;
+                foundUserToUpdate.Barcode = applicationUserEditViewModel.Barcode;
+                foundUserToUpdate.HiddenNotes = applicationUserEditViewModel.HiddenNotes;
+
+                // Apply the changes (if any) to the database
+                ApplicationUserManager UserManager = new ApplicationUserManager(new UserStore<ApplicationUser>(_identityDb));
+                var result = await UserManager.UpdateAsync(foundUserToUpdate);
+
+                if (result.Succeeded)
+                {
+                    // If the role changed we need to remove them from their old role and add them to their new role
+                    if (applicationUserEditViewModel.OriginalRoleId != applicationUserEditViewModel.RoleId)
+                    {
+                        // The .RemoveFromRole and .AddToRole methods require the NAME of the role, not the ID...
+                        // ...so we need to query the database to get the names
+
+                        // If there is an old role, then remove that role
+                        if (applicationUserEditViewModel.OriginalRoleId != null & applicationUserEditViewModel.OriginalRoleId != "")
+                        {
+                            string oldRoleName = _identityDb.Roles.Find(applicationUserEditViewModel.OriginalRoleId).Name;
+                            UserManager.RemoveFromRole(applicationUserEditViewModel.Id, oldRoleName);
+                        }
+                        // Add them to their new role
+                        string newRoleName = _identityDb.Roles.Find(applicationUserEditViewModel.RoleId).Name;
+                        UserManager.AddToRole(applicationUserEditViewModel.Id, newRoleName);
+                    }
+
+                    return RedirectToAction("Index", "ApplicationUser");
+                }
+                else
+                {
+                    foreach (var error in result.Errors)
+                    {
+                        ModelState.AddModelError("", error);
+                    }
+                }
+            }
+
+            // If we got this far, the model state was not valid or the user creation failed (there should be errors in the ModelState)
+            // Redisplay form with the same data
+            ModelState.AddModelError("", "ERROR - failed to create user.");
+            return View(applicationUserEditViewModel);
+        }
 
 
 
@@ -240,30 +318,28 @@ namespace BookWyrm.Web.Controllers
 
             if (foundUser == null)
                 return HttpNotFound();
-            else
-            {
-                // The user was found, but we only have a role ID - we need to get the name of their role
-                string roleName = "";
-                IdentityUserRole foundRole = foundUser.Roles.FirstOrDefault();
-                if (foundRole != null)
-                    roleName = _identityDb.Roles.Find(foundRole.RoleId).Name;
 
-                ApplicationUserDeleteViewModel applicationUserDeleteViewModel = new ApplicationUserDeleteViewModel()
-                {
-                    Id = id,
-                    FirstName = foundUser.FirstName,
-                    LastName = foundUser.LastName,
-                    Email = foundUser.Email,
-                    PhoneNumber = foundUser.PhoneNumber,
-                    Address = foundUser.Address,
-                    BirthDate = foundUser.BirthDate,
-                    Balance = foundUser.Balance,
-                    Barcode = foundUser.Barcode,
-                    HiddenNotes = foundUser.HiddenNotes,
-                    RoleName = roleName
-                };
-                return View(applicationUserDeleteViewModel);
-            }
+            // The user was found, but we only have a role ID - we need to get the name of their role
+            string roleName = "";
+            IdentityUserRole foundRole = foundUser.Roles.FirstOrDefault();
+            if (foundRole != null)
+                roleName = _identityDb.Roles.Find(foundRole.RoleId).Name;
+
+            ApplicationUserDeleteViewModel applicationUserDeleteViewModel = new ApplicationUserDeleteViewModel()
+            {
+                Id = id,
+                FirstName = foundUser.FirstName,
+                LastName = foundUser.LastName,
+                Email = foundUser.Email,
+                PhoneNumber = foundUser.PhoneNumber,
+                Address = foundUser.Address,
+                BirthDate = foundUser.BirthDate,
+                Balance = foundUser.Balance,
+                Barcode = foundUser.Barcode,
+                HiddenNotes = foundUser.HiddenNotes,
+                RoleName = roleName
+            };
+            return View(applicationUserDeleteViewModel);
         }
 
 
@@ -271,11 +347,11 @@ namespace BookWyrm.Web.Controllers
         // POST: ApplicationUsers/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(string id)
+        public async Task<ActionResult> DeleteConfirmed(string id)
         {
             ApplicationUser applicationUser = _identityDb.Users.Find(id);
             _identityDb.Users.Remove(applicationUser);
-            _identityDb.SaveChanges();
+            await _identityDb.SaveChangesAsync();
             return RedirectToAction("Index");
         }
 

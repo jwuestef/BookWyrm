@@ -1,11 +1,11 @@
-﻿@model BookWyrm.Data.ViewModels.ApplicationUserCreateViewModel
+﻿@model BookWyrm.Data.ViewModels.ApplicationUserEditViewModel
 
 @{
-    ViewBag.Title = "Create A New User";
+    ViewBag.Title = "Edit " + Model.FirstName + " " + Model.LastName;
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Create A New User</h2>
+<h2>Edit @Model.FirstName @Model.LastName</h2>
 
 
 @using (Html.BeginForm())
@@ -22,6 +22,8 @@
             @Html.DropDownListFor(model => model.RoleId, new SelectList(Model.Roles, "Id", "Name"), "", new { @class = "form-control" })
             @Html.ValidationMessageFor(model => model.RoleId)
         </div>
+
+        @Html.HiddenFor(model => model.OriginalRoleId)
 
         <div class="form-group">
             @Html.LabelFor(model => model.Barcode)
@@ -79,11 +81,10 @@
 
 
 
-
         <div class="form-group">
             <button type="submit" value="Create" class="btn btn-default">
-                <span class="glyphicon glyphicon-plus" aria-hidden="true" style="text-decoration: none !important; margin-right: 5px;"></span>
-                Create
+                <span class="glyphicon glyphicon-ok" aria-hidden="true" style="text-decoration: none !important; margin-right: 5px;"></span>
+                Save
             </button>
         </div>
     </div>

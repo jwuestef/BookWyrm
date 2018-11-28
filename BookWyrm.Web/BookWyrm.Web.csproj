@@ -241,6 +241,7 @@
     <Content Include="Views\ApplicationUser\Create.cshtml" />
     <Content Include="Views\ApplicationUser\Details.cshtml" />
     <Content Include="Views\ApplicationUser\Delete.cshtml" />
+    <Content Include="Views\ApplicationUser\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
