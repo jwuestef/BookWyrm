@@ -69,6 +69,13 @@ namespace BookWyrm.Web.Controllers
                                                    select role.Name).ToList()
                                   }).ToList().Select(p => new ApplicationUserIndexViewModel()
                                   {
+                                      Id = p.Id,
+                                      FirstName = p.FirstName,
+                                      LastName = p.LastName,
+                                      Email = p.Email,
+                                      PhoneNumber = p.PhoneNumber,
+                                      Balance = p.Balance,
+                                      Barcode = p.Barcode,
                                       Role = string.Join(",", p.RoleNames)
                                   });
 
@@ -131,6 +138,7 @@ namespace BookWyrm.Web.Controllers
                     FirstName = applicationUserCreateViewModel.FirstName,
                     LastName = applicationUserCreateViewModel.LastName,
                     Email = applicationUserCreateViewModel.Email,
+                    UserName = applicationUserCreateViewModel.Email,
                     PhoneNumber = applicationUserCreateViewModel.PhoneNumber,
                     Address = applicationUserCreateViewModel.Address,
                     BirthDate = applicationUserCreateViewModel.BirthDate,

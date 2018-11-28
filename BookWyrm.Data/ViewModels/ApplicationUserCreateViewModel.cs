@@ -49,7 +49,7 @@ namespace BookWyrm.Data.ViewModels
         public string RoleId { get; set; }
 
         [Display(Name = "Role")]
-        [Required(ErrorMessage = "The user must have a role assigned.")]
+        //[Required(ErrorMessage = "The user must have a role assigned.")]
         public List<IdentityRole> Roles { get; set; }
 
 
