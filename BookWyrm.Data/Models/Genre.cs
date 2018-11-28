@@ -1,23 +1,33 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web.Mvc;
 
 namespace BookWyrm.Data.Models
 {
-    static class Genre
+    public static class Genre
     {
-        public const string NonFiction = "Non-Fiction";
-        public const string ScienceFiction = "Science Fiction";
-        public const string Fantasy = "Fantasy";
-        public const string Adventure = "Adventure";
-        public const string Romance = "Romance";
-        public const string Drama = "Drama";
-        public const string Mystery = "Mystery";
-        public const string Mythology = "Mythology";
-        public const string Action = "Action";
-        public const string Comedy = "Comedy";
-        public const string Horror = "Horror";
+        public static IEnumerable<SelectListItem> StateListItems()
+        {
+            return new List<SelectListItem>
+            {
+                new SelectListItem() {Text = "Non-Fiction", Value = "NonFiction"},
+                new SelectListItem() {Text = "Science Fiction", Value = "ScienceFiction"},
+                new SelectListItem() {Text = "Fantasy", Value = "Fantasy"},
+                new SelectListItem() {Text = "Adventure", Value = "Adventure"},
+                new SelectListItem() {Text = "Action", Value = "Action"},
+                new SelectListItem() {Text = "Romance", Value = "Romance"},
+                new SelectListItem() {Text = "Drama", Value = "Drama"},
+                new SelectListItem() {Text = "Mystery", Value = "Mystery"},
+                new SelectListItem() {Text = "Comedy", Value = "Comedy"},
+                new SelectListItem() {Text = "Horror", Value = "Horror"},
+                new SelectListItem() {Text = "Mythology", Value = "Mythology"}
+            };
+        }
     }
+
+
 }

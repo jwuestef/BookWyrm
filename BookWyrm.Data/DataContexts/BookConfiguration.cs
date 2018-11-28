@@ -76,7 +76,6 @@ namespace BookWyrm.Data.DataContexts
                 .IsRequired();
 
             Property(b => b.HiddenNotes)
-                .IsRequired()
                 .HasMaxLength(2000);
 
 

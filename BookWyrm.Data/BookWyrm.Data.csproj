@@ -91,6 +91,10 @@
     <Compile Include="MigrationHistory\BookMigrations\201811281931458_InitialCreate.Designer.cs">
       <DependentUpon>201811281931458_InitialCreate.cs</DependentUpon>
     </Compile>
+    <Compile Include="MigrationHistory\BookMigrations\201811282133064_MakeHiddenNotesNotRequired.cs" />
+    <Compile Include="MigrationHistory\BookMigrations\201811282133064_MakeHiddenNotesNotRequired.Designer.cs">
+      <DependentUpon>201811282133064_MakeHiddenNotesNotRequired.cs</DependentUpon>
+    </Compile>
     <Compile Include="MigrationHistory\BookMigrations\Configuration.cs" />
     <Compile Include="MigrationHistory\IdentityMigrations\201811272000289_InitialCreate.cs" />
     <Compile Include="MigrationHistory\IdentityMigrations\201811272000289_InitialCreate.Designer.cs">
@@ -105,8 +109,9 @@
     <Compile Include="ViewModels\ApplicationUserCreateViewModel.cs" />
     <Compile Include="ViewModels\ApplicationUserDeleteViewModel.cs" />
     <Compile Include="ViewModels\ApplicationUserEditViewModel.cs" />
-    <Compile Include="ViewModels\ApplicationUserDetailsViewModel.cs" />
     <Compile Include="ViewModels\ApplicationUserIndexViewModel.cs" />
+    <Compile Include="ViewModels\ApplicationUserDetailsViewModel.cs" />
+    <Compile Include="ViewModels\BookViewModel.cs" />
     <Compile Include="ViewModels\ManageViewModels.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -118,6 +123,9 @@
   <ItemGroup>
     <EmbeddedResource Include="MigrationHistory\BookMigrations\201811281931458_InitialCreate.resx">
       <DependentUpon>201811281931458_InitialCreate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MigrationHistory\BookMigrations\201811282133064_MakeHiddenNotesNotRequired.resx">
+      <DependentUpon>201811282133064_MakeHiddenNotesNotRequired.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MigrationHistory\IdentityMigrations\201811272000289_InitialCreate.resx">
       <DependentUpon>201811272000289_InitialCreate.cs</DependentUpon>

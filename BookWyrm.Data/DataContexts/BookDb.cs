@@ -65,7 +65,6 @@ namespace BookWyrm.Data.DataContexts
 
         }
 
-
-
+        public System.Data.Entity.DbSet<BookWyrm.Data.Models.Book> Books { get; set; }
     }
 }
