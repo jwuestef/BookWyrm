@@ -1,22 +1,27 @@
 ﻿@model IEnumerable<BookWyrm.Data.ViewModels.ApplicationUserIndexViewModel>
 
 @{
-    ViewBag.Title = "User Lise";
+    ViewBag.Title = "User List";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <h2>All Users</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    <a href="@Url.Action("Create", "ApplicationUser")" class="hoverable-link">
+        <span class="glyphicon glyphicon-plus" aria-hidden="true" style="text-decoration: none !important; margin-right: 5px;"></span>
+        <span>Add New User</span>
+    </a>
 </p>
 <table class="table table-striped">
     <tr>
+        <th></th>
         <th>@Html.DisplayNameFor(model => model.FirstName)</th>
         <th>@Html.DisplayNameFor(model => model.LastName)</th>
         <th>@Html.DisplayNameFor(model => model.Email)</th>
         <th>@Html.DisplayNameFor(model => model.PhoneNumber)</th>
         <th>@Html.DisplayNameFor(model => model.Balance)</th>
+        <th>@Html.DisplayNameFor(model => model.Role)</th>
         <th>@Html.DisplayNameFor(model => model.Barcode)</th>
         <th></th>
     </tr>
@@ -24,16 +29,27 @@
     @foreach (var item in Model)
     {
         <tr>
+            <td><a href="@Url.Action("Details", "ApplicationUser", new { id = item.Id })" class="hoverable-link">
+                <span class="glyphicon glyphicon-hand-up" aria-hidden="true" style="text-decoration: none !important; margin-right: 5px;"></span>
+                <span>View</span>
+            </a></td>
             <td>@Html.DisplayFor(modelItem => item.FirstName)</td>
             <td>@Html.DisplayFor(modelItem => item.LastName)</td>
             <td>@Html.DisplayFor(modelItem => item.Email)</td>
             <td>@Html.DisplayFor(modelItem => item.PhoneNumber)</td>
             <td>@Html.DisplayFor(modelItem => item.Balance)</td>
+            <td>@Html.DisplayFor(modelItem => item.Role)</td>
             <td>@Html.DisplayFor(modelItem => item.Barcode)</td>
             <td>
-                @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-                @Html.ActionLink("Details", "Details", new { id = item.Id }) |
-                @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                <a href="@Url.Action("Edit", "ApplicationUser", new { id = item.Id })" class="hoverable-link">
+                    <span class="glyphicon glyphicon-pencil" aria-hidden="true" style="text-decoration: none !important; margin-right: 5px;"></span>
+                    <span>Edit</span>
+                </a>
+                <span style="margin: 0px 10px;">|</span>
+                <a href="@Url.Action("Delete", "ApplicationUser", new { id = item.Id })" class="hoverable-link">
+                    <span class="glyphicon glyphicon-trash" aria-hidden="true" style="text-decoration: none !important; margin-right: 5px;"></span>
+                    <span>Delete</span>
+                </a>
             </td>
         </tr>
     }

@@ -32,3 +32,11 @@ textarea {
 .input-validation-error {
     border: 2px solid#c9302c !important;
 }
+
+.hoverable-link {
+    text-decoration: none !important;
+}
+
+.hoverable-link:hover {
+    text-decoration: underline !important;
+}

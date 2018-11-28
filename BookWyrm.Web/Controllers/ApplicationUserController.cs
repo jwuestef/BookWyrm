@@ -53,6 +53,7 @@ namespace BookWyrm.Web.Controllers
 
 
 
+            // We want to display a list of all users on this page, we need to get the appropriate info out of the db
             var allUsersIncludingRoles = (from user in _identityDb.Users
                                   select new
                                   {
@@ -79,7 +80,6 @@ namespace BookWyrm.Web.Controllers
                                       Role = string.Join(",", p.RoleNames)
                                   });
 
-
             return View(allUsersIncludingRoles);
 
         }
@@ -87,20 +87,20 @@ namespace BookWyrm.Web.Controllers
 
 
         //// GET: ApplicationUsers/Details/5
-        // //[HttpGet]   - STILL DO THIS ELSEWHERE
-        //public ActionResult Details(string id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-        //    }
-        //    ApplicationUser applicationUser = _identityDb.Users.Find(id);
-        //    if (applicationUser == null)
-        //    {
-        //        return HttpNotFound();
-        //    }
-        //    return View(applicationUser);
-        //}
+        [HttpGet]
+        public ActionResult Details(string id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            ApplicationUser applicationUser = _identityDb.Users.Find(id);
+            if (applicationUser == null)
+            {
+                return HttpNotFound();
+            }
+            return View(applicationUser);
+        }
 
 
 
@@ -172,6 +172,7 @@ namespace BookWyrm.Web.Controllers
 
 
         //// GET: ApplicationUsers/Edit/5
+        // //[HttpGet]   - STILL DO THIS ELSEWHERE
         //public ActionResult Edit(string id)
         //{
         //    if (id == null)
