@@ -17,7 +17,7 @@ namespace BookWyrm.Data.DataContexts
         }
 
 
-        // PUT TABLES HERE
+        // PUT MODELS HERE - EACH WILL GET IT'S OWN TABLE
         //public virtual DbSet<Author> Authors { get; set; }
         //public virtual DbSet<Course> Courses { get; set; }
         //public virtual DbSet<Tag> Tags { get; set; }
