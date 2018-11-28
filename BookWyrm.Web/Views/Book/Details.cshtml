@@ -1,98 +1,89 @@
-﻿@model BookWyrm.Data.Models.Book
+﻿@model BookWyrm.Data.ViewModels.BookViewModel
 
 @{
-    ViewBag.Title = "Details";
+    ViewBag.Title = Model.Title + " Details";
 }
 
-<h2>Details</h2>
+<style>
+    td {
+        padding: 10px;
+    }
 
-<div>
-    <h4>Book</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Title)
-        </dt>
+        td:first-of-type {
+            text-align: right;
+        }
+</style>
 
-        <dd>
-            @Html.DisplayFor(model => model.Title)
-        </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Author)
-        </dt>
+<h2>@Model.Title Details</h2>
 
-        <dd>
-            @Html.DisplayFor(model => model.Author)
-        </dd>
+<hr />
 
-        <dt>
-            @Html.DisplayNameFor(model => model.YearPublished)
-        </dt>
+<table>
+    <tr>
+        <td><strong>@Html.DisplayNameFor(model => model.Title):</strong></td>
+        <td>@Html.DisplayFor(model => model.Title)</td>
+    </tr>
+    <tr>
+        <td><strong>@Html.DisplayNameFor(model => model.Author):</strong></td>
+        <td>@Html.DisplayFor(model => model.Author)</td>
+    </tr>
+    <tr>
+        <td><strong>@Html.DisplayNameFor(model => model.YearPublished):</strong></td>
+        <td>@Html.DisplayFor(model => model.YearPublished)</td>
+    </tr>
+    <tr>
+        <td><strong>@Html.DisplayNameFor(model => model.Genre):</strong></td>
+        <td>@Html.DisplayFor(model => model.Genre)</td>
+    </tr>
+    <tr>
+        <td><strong>@Html.DisplayNameFor(model => model.Keywords):</strong></td>
+        <td>@Html.DisplayFor(model => model.Keywords)</td>
+    </tr>
+    <tr>
+        <td><strong>@Html.DisplayNameFor(model => model.Description):</strong></td>
+        <td>@Html.DisplayFor(model => model.Description)</td>
+    </tr>
+    <tr>
+        <td><strong>@Html.DisplayNameFor(model => model.ISBN):</strong></td>
+        <td>@Html.DisplayFor(model => model.ISBN)</td>
+    </tr>
+    <tr>
+        <td><strong>@Html.DisplayNameFor(model => model.Barcode):</strong></td>
+        <td>@Html.DisplayFor(model => model.Barcode)</td>
+    </tr>
+    <tr>
+        <td><strong>@Html.DisplayNameFor(model => model.MinAgeReq):</strong></td>
+        <td>@Html.DisplayFor(model => model.MinAgeReq)</td>
+    </tr>
+    <tr>
+        <td><strong>@Html.DisplayNameFor(model => model.HiddenNotes):</strong></td>
+        <td>@Html.DisplayFor(model => model.HiddenNotes)</td>
+    </tr>
+</table>
 
-        <dd>
-            @Html.DisplayFor(model => model.YearPublished)
-        </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Genre)
-        </dt>
+<br />
 
-        <dd>
-            @Html.DisplayFor(model => model.Genre)
-        </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Keywords)
-        </dt>
+<a href="@Url.Action("Edit", "Book", new { id = Model.BookId })" class="hoverable-link">
+    <span class="glyphicon glyphicon-pencil" aria-hidden="true" style="text-decoration: none !important; margin-right: 5px;"></span>
+    <span>Edit</span>
+</a>
+<span style="margin: 0px 10px;">|</span>
+<a href="@Url.Action("Delete", "Book", new { id = Model.BookId })" class="hoverable-link">
+    <span class="glyphicon glyphicon-trash" aria-hidden="true" style="text-decoration: none !important; margin-right: 5px;"></span>
+    <span>Delete</span>
+</a>
 
-        <dd>
-            @Html.DisplayFor(model => model.Keywords)
-        </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Description)
-        </dt>
+<br />
+<br />
+<br />
 
-        <dd>
-            @Html.DisplayFor(model => model.Description)
-        </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.ISBN)
-        </dt>
+<a href="@Url.Action("Index", "Book")" class="hoverable-link">
+    <span class="glyphicon glyphicon-arrow-left" aria-hidden="true" style="text-decoration: none !important; margin-right: 5px;"></span>
+    <span>Back to list</span>
+</a>
 
-        <dd>
-            @Html.DisplayFor(model => model.ISBN)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Barcode)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Barcode)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.MinAgeReq)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.MinAgeReq)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.HiddenNotes)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.HiddenNotes)
-        </dd>
-
-    </dl>
-</div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.BookId }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>
