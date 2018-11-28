@@ -27,26 +27,26 @@ namespace BookWyrm.Web.Controllers
         public ActionResult Index()
         {
             // When we visit this User Management page, make sure the appropriate roles exist in the database
-            var roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(_identityDb));
-            var UserManager = new ApplicationUserManager(new UserStore<ApplicationUser>(_identityDb));
+            RoleManager<IdentityRole> roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(_identityDb));
+            ApplicationUserManager UserManager = new ApplicationUserManager(new UserStore<ApplicationUser>(_identityDb));
 
             if (!roleManager.RoleExists("Kiosk"))
             {
-                var role = new IdentityRole();
+                IdentityRole role = new IdentityRole();
                 role.Name = "Kiosk";
                 roleManager.Create(role);
             }
 
             if (!roleManager.RoleExists("Patron"))
             {
-                var role = new IdentityRole();
+                IdentityRole role = new IdentityRole();
                 role.Name = "Patron";
                 roleManager.Create(role);
             }
 
             if (!roleManager.RoleExists("Librarian"))
             {
-                var role = new IdentityRole();
+                IdentityRole role = new IdentityRole();
                 role.Name = "Librarian";
                 roleManager.Create(role);
             }
@@ -86,20 +86,41 @@ namespace BookWyrm.Web.Controllers
 
 
 
-        //// GET: ApplicationUsers/Details/5
+        // GET: ApplicationUsers/Details/5
         [HttpGet]
         public ActionResult Details(string id)
         {
             if (id == null)
-            {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            ApplicationUser applicationUser = _identityDb.Users.Find(id);
-            if (applicationUser == null)
-            {
+
+            ApplicationUser foundUser = _identityDb.Users.Find(id);
+
+            if (foundUser == null)
                 return HttpNotFound();
+            else
+            {
+                // The user was found, but we only have a role ID - we need to get the name of their role
+                string roleName = "";
+                IdentityUserRole foundRole = foundUser.Roles.FirstOrDefault();
+                if (foundRole != null)
+                    roleName = _identityDb.Roles.Find(foundRole.RoleId).Name;
+
+                ApplicationUserDetailsViewModel applicationUserDetailsViewModel = new ApplicationUserDetailsViewModel()
+                {
+                    Id = id,
+                    FirstName = foundUser.FirstName,
+                    LastName = foundUser.LastName,
+                    Email = foundUser.Email,
+                    PhoneNumber = foundUser.PhoneNumber,
+                    Address = foundUser.Address,
+                    BirthDate = foundUser.BirthDate,
+                    Balance = foundUser.Balance,
+                    Barcode = foundUser.Barcode,
+                    HiddenNotes = foundUser.HiddenNotes,
+                    RoleName = roleName
+                };
+                return View(applicationUserDetailsViewModel);
             }
-            return View(applicationUser);
         }
 
 
@@ -109,16 +130,16 @@ namespace BookWyrm.Web.Controllers
         public ActionResult Create()
         {
 
-            var roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(_identityDb));
-            var roles = roleManager.Roles.ToList();
+            RoleManager<IdentityRole> roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(_identityDb));
+            List<IdentityRole> roles = roleManager.Roles.ToList();
 
-            var viewModel = new ApplicationUserCreateViewModel
+            ApplicationUserCreateViewModel applicationUserCreateViewModel = new ApplicationUserCreateViewModel
             {
                 Roles = roles,
                 Balance = 0
             };
 
-            return View(viewModel);
+            return View(applicationUserCreateViewModel);
         }
 
 
@@ -133,7 +154,7 @@ namespace BookWyrm.Web.Controllers
 
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser()
+                ApplicationUser user = new ApplicationUser()
                 {
                     FirstName = applicationUserCreateViewModel.FirstName,
                     LastName = applicationUserCreateViewModel.LastName,
@@ -147,8 +168,8 @@ namespace BookWyrm.Web.Controllers
                     HiddenNotes = applicationUserCreateViewModel.HiddenNotes
                 };
 
-                var UserManager = new ApplicationUserManager(new UserStore<ApplicationUser>(_identityDb));
-                var result = await UserManager.CreateAsync(user, user.Id);
+                ApplicationUserManager UserManager = new ApplicationUserManager(new UserStore<ApplicationUser>(_identityDb));
+                IdentityResult result = await UserManager.CreateAsync(user, user.Id);
 
                 if (result.Succeeded)
                 {
@@ -164,8 +185,9 @@ namespace BookWyrm.Web.Controllers
                 }
             }
 
-            // If we got this far, the model state was not valid, redisplay form
-            ModelState.AddModelError("", "ERROR - unable to save user to DB for unknown reason. Redisplay the form with the same values...");
+            // If we got this far, the model state was not valid or the user creation failed (there should be errors in the ModelState)
+            // Redisplay form with the same data
+            ModelState.AddModelError("", "ERROR - failed to create user.");
             return View(applicationUserCreateViewModel);
         }
 
@@ -207,33 +229,55 @@ namespace BookWyrm.Web.Controllers
 
 
 
-        //// GET: ApplicationUsers/Delete/5
-        //public ActionResult Delete(string id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-        //    }
-        //    ApplicationUser applicationUser = _identityDb.Users.Find(id);
-        //    if (applicationUser == null)
-        //    {
-        //        return HttpNotFound();
-        //    }
-        //    return View(applicationUser);
-        //}
+        // GET: ApplicationUsers/Delete/5
+        [HttpGet]
+        public ActionResult Delete(string id)
+        {
+            if (id == null)
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+
+            ApplicationUser foundUser = _identityDb.Users.Find(id);
+
+            if (foundUser == null)
+                return HttpNotFound();
+            else
+            {
+                // The user was found, but we only have a role ID - we need to get the name of their role
+                string roleName = "";
+                IdentityUserRole foundRole = foundUser.Roles.FirstOrDefault();
+                if (foundRole != null)
+                    roleName = _identityDb.Roles.Find(foundRole.RoleId).Name;
+
+                ApplicationUserDeleteViewModel applicationUserDeleteViewModel = new ApplicationUserDeleteViewModel()
+                {
+                    Id = id,
+                    FirstName = foundUser.FirstName,
+                    LastName = foundUser.LastName,
+                    Email = foundUser.Email,
+                    PhoneNumber = foundUser.PhoneNumber,
+                    Address = foundUser.Address,
+                    BirthDate = foundUser.BirthDate,
+                    Balance = foundUser.Balance,
+                    Barcode = foundUser.Barcode,
+                    HiddenNotes = foundUser.HiddenNotes,
+                    RoleName = roleName
+                };
+                return View(applicationUserDeleteViewModel);
+            }
+        }
 
 
 
-        //// POST: ApplicationUsers/Delete/5
-        //[HttpPost, ActionName("Delete")]
-        //[ValidateAntiForgeryToken]
-        //public ActionResult DeleteConfirmed(string id)
-        //{
-        //    ApplicationUser applicationUser = _identityDb.Users.Find(id);
-        //    _identityDb.Users.Remove(applicationUser);
-        //    _identityDb.SaveChanges();
-        //    return RedirectToAction("Index");
-        //}
+        // POST: ApplicationUsers/Delete/5
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeleteConfirmed(string id)
+        {
+            ApplicationUser applicationUser = _identityDb.Users.Find(id);
+            _identityDb.Users.Remove(applicationUser);
+            _identityDb.SaveChanges();
+            return RedirectToAction("Index");
+        }
 
 
 

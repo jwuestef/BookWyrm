@@ -1,0 +1,81 @@
+﻿@model BookWyrm.Data.ViewModels.ApplicationUserDetailsViewModel
+
+@{
+    ViewBag.Title = @Model.FirstName  + " " + @Model.LastName + "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    td {
+        padding: 10px;
+    }
+    td:first-of-type {
+        text-align: right;
+    }
+</style>
+
+<h2>Details for @Model.FirstName @Model.LastName</h2>
+
+<hr />
+
+<table>
+    <tr>
+        <td><strong>@Html.DisplayNameFor(model => model.FirstName):</strong></td>
+        <td>@Html.DisplayFor(model => model.FirstName)</td>
+    </tr>
+    <tr>
+        <td><strong>@Html.DisplayNameFor(model => model.LastName):</strong></td>
+        <td>@Html.DisplayFor(model => model.LastName)</td>
+    </tr>
+    <tr>
+        <td><strong>@Html.DisplayNameFor(model => model.Email):</strong></td>
+        <td>@Html.DisplayFor(model => model.Email)</td>
+    </tr>
+    <tr>
+        <td><strong>@Html.DisplayNameFor(model => model.PhoneNumber):</strong></td>
+        <td>@Html.DisplayFor(model => model.PhoneNumber)</td>
+    </tr>
+    <tr>
+        <td><strong>@Html.DisplayNameFor(model => model.BirthDate):</strong></td>
+        <td>@Html.DisplayFor(model => model.BirthDate)</td>
+    </tr>
+    <tr>
+        <td><strong>@Html.DisplayNameFor(model => model.Balance):</strong></td>
+        <td>$@Html.DisplayFor(model => model.Balance)</td>
+    </tr>
+    <tr>
+        <td><strong>@Html.DisplayNameFor(model => model.Barcode):</strong></td>
+        <td>@Html.DisplayFor(model => model.Barcode)</td>
+    </tr>
+    <tr>
+        <td><strong>@Html.DisplayNameFor(model => model.RoleName):</strong></td>
+        <td>@Html.DisplayFor(model => model.RoleName)</td>
+    </tr>
+</table>
+
+
+<br />
+
+
+<a href="@Url.Action("Edit", "ApplicationUser", new { id = Model.Id })" class="hoverable-link">
+    <span class="glyphicon glyphicon-pencil" aria-hidden="true" style="text-decoration: none !important; margin-right: 5px;"></span>
+    <span>Edit</span>
+</a>
+<span style="margin: 0px 10px;">|</span>
+<a href="@Url.Action("Delete", "ApplicationUser", new { id = Model.Id })" class="hoverable-link">
+    <span class="glyphicon glyphicon-trash" aria-hidden="true" style="text-decoration: none !important; margin-right: 5px;"></span>
+    <span>Delete</span>
+</a>
+
+
+<br />
+<br />
+<br />
+
+
+<a href="@Url.Action("Index", "ApplicationUser")" class="hoverable-link">
+    <span class="glyphicon glyphicon-arrow-left" aria-hidden="true" style="text-decoration: none !important; margin-right: 5px;"></span>
+    <span>Back to list</span>
+</a>
+
+

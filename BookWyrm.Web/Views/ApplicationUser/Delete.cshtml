@@ -1,0 +1,84 @@
+﻿@model BookWyrm.Data.ViewModels.ApplicationUserDeleteViewModel
+
+@{
+    ViewBag.Title = "Delete " + @Model.FirstName + " " + @Model.LastName;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    td {
+        padding: 10px;
+    }
+
+        td:first-of-type {
+            text-align: right;
+        }
+</style>
+
+<h2>Are you sure you want to delete @Model.FirstName @Model.LastName ?</h2>
+
+<hr />
+
+<table>
+    <tr>
+        <td><strong>@Html.DisplayNameFor(model => model.FirstName):</strong></td>
+        <td>@Html.DisplayFor(model => model.FirstName)</td>
+    </tr>
+    <tr>
+        <td><strong>@Html.DisplayNameFor(model => model.LastName):</strong></td>
+        <td>@Html.DisplayFor(model => model.LastName)</td>
+    </tr>
+    <tr>
+        <td><strong>@Html.DisplayNameFor(model => model.Email):</strong></td>
+        <td>@Html.DisplayFor(model => model.Email)</td>
+    </tr>
+    <tr>
+        <td><strong>@Html.DisplayNameFor(model => model.PhoneNumber):</strong></td>
+        <td>@Html.DisplayFor(model => model.PhoneNumber)</td>
+    </tr>
+    <tr>
+        <td><strong>@Html.DisplayNameFor(model => model.BirthDate):</strong></td>
+        <td>@Html.DisplayFor(model => model.BirthDate)</td>
+    </tr>
+    <tr>
+        <td><strong>@Html.DisplayNameFor(model => model.Balance):</strong></td>
+        <td>$@Html.DisplayFor(model => model.Balance)</td>
+    </tr>
+    <tr>
+        <td><strong>@Html.DisplayNameFor(model => model.Barcode):</strong></td>
+        <td>@Html.DisplayFor(model => model.Barcode)</td>
+    </tr>
+    <tr>
+        <td><strong>@Html.DisplayNameFor(model => model.RoleName):</strong></td>
+        <td>@Html.DisplayFor(model => model.RoleName)</td>
+    </tr>
+</table>
+
+
+<br />
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+<div class="form-actions no-color">
+    <button type="submit" value="Delete" class="btn btn-default">
+        <span class="glyphicon glyphicon-trash" aria-hidden="true" style="text-decoration: none !important; margin-right: 5px;"></span>
+        Delete
+    </button>
+</div>
+}
+
+
+<br />
+<br />
+<br />
+
+
+<a href="@Url.Action("Index", "ApplicationUser")" class="hoverable-link">
+    <span class="glyphicon glyphicon-arrow-left" aria-hidden="true" style="text-decoration: none !important; margin-right: 5px;"></span>
+    <span>Back to list</span>
+</a>
+
+

@@ -13,9 +13,9 @@ namespace BookWyrm.Data.ViewModels
         // Strings are nullable, so string-based properties are OPTIONAL BY DEFAULT. Add [Required] if you want it mandatory. 
         // Integers aren't nullable, so others are REQUIRED BY DEFAULT. Add ? to be int? to make it optional
 
+        [Display(Name = "First Name")]
         [Required(ErrorMessage = "First Name is required.")]
         [StringLength(255, ErrorMessage = "First Name must be less than 255 characters.")]
-        [Display(Name = "First Name")]
         public string FirstName { get; set; }
 
         [Display(Name = "Last Name")]

@@ -239,6 +239,8 @@
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\ApplicationUser\Index.cshtml" />
     <Content Include="Views\ApplicationUser\Create.cshtml" />
+    <Content Include="Views\ApplicationUser\Details.cshtml" />
+    <Content Include="Views\ApplicationUser\Delete.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

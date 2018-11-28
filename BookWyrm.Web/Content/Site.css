@@ -25,6 +25,12 @@ textarea {
 
 
 
+/* Hovering over buttons should have an orange, not dark gray, border */
+.btn:hover {
+    border-color: #bf5a16 !important;
+}
+
+/* Input fields that are in error state should be highlighted in red */
 .field-validation-error {
     color: #c9302c;
 }
@@ -33,6 +39,8 @@ textarea {
     border: 2px solid#c9302c !important;
 }
 
+/* Used across site to keep links from being underlined by default, until hovered. */
+/* If there is an icon inside the link, use the style attribute to remove the underline no matter what*/
 .hoverable-link {
     text-decoration: none !important;
 }
