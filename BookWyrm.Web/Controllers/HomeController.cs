@@ -123,22 +123,24 @@ namespace BookWyrm.Web.Controllers
             }
 
             // We received a barcode, search the database for this book
-            using (IdentityDb _identityDb = new IdentityDb())
+            using (BookDb _bookDb = new BookDb())
             {
-                ApplicationUser foundUser = _identityDb.Users.Where(u => u.Barcode == bookBarcode).FirstOrDefault();
-                if (foundUser == null)
+                Book foundBook = _bookDb.Books.Where(b => b.Barcode == bookBarcode).FirstOrDefault();
+                if (foundBook == null)
                 {
                     Response.StatusCode = (int)HttpStatusCode.BadRequest;
                     return Json(new { message = "Invalid barcode, please try again" });
                 }
 
-                string fullName = foundUser.FirstName + " " + foundUser.LastName;
+                // Now create an entry in the borrowing table
+                // TODO: create borrowing table
 
-                // We found the user, reply and tell the user it's okay to start scanning books
+
+                // Check out for this book complete, tell the user to continue
                 return Json(new
                 {
-                    fullName = foundUser.FirstName + " " + foundUser.LastName,
-                    userId = foundUser.Id
+                    //fullName = foundUser.FirstName + " " + foundUser.LastName,
+                    //userId = foundUser.Id
                 });
             }
         }

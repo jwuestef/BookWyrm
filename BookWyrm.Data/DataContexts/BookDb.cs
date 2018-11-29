@@ -23,10 +23,13 @@ namespace BookWyrm.Data.DataContexts
         //public virtual DbSet<Course> Courses { get; set; }
         //public virtual DbSet<Tag> Tags { get; set; }
 
-        
-        
-        
-        
+        public virtual DbSet<Book> Books { get; set; }
+        public virtual DbSet<Borrowing> Borrowings { get; set; }
+
+
+
+
+
         public static BookDb Create()
         {
             return new BookDb();
@@ -62,9 +65,9 @@ namespace BookWyrm.Data.DataContexts
 
             // Move the entity configurations to a different file
             modelBuilder.Configurations.Add(new BookConfiguration());
+            modelBuilder.Configurations.Add(new BorrowingConfiguration());
 
         }
 
-        public System.Data.Entity.DbSet<BookWyrm.Data.Models.Book> Books { get; set; }
     }
 }

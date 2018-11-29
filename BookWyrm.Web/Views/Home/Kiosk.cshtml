@@ -4,7 +4,7 @@
 }
 
 
-<h2>Self-Service Check Out/In Kiosk</h2>
+<h2>Self-Service Check-Out Kiosk</h2>
 
 <br />
 <br />
@@ -75,6 +75,7 @@
             // and send it off to the controller ourselves.
             $("#userBarcodeForm").submit(e => {
                 e.preventDefault();
+                $("#errorMessage").hide(500);
                 $.ajax({
                     type: "POST",
                     url: "/Home/KioskUserBarcode",
@@ -91,6 +92,7 @@
                     $("#greetingUser").text("Hello " + res.fullName);
                     $("#scanYourBookSection").css({ "display": "flex" });
                     $("#scanYourBookSection").animate({ "opacity": 1 }, 500);
+                    // TODO: Show list of currently checked out books and their due dates
                     $("#bookBarcodeInput").focus();
                 }).fail(err => {
                     // Server didn't like that barcode, log the error and show an error message.
@@ -99,6 +101,35 @@
                     $("#errorMessage").show(500);
                 });
             });
+
+            // When the bookBarcodeForm is submitted (meaning they scanned a book) stop the form submission
+            // and send it off to the controller ourselves.
+            $("#bookBarcodeForm").submit(e => {
+                e.preventDefault();
+                $("#errorMessage").hide(500);
+                $.ajax({
+                    type: "POST",
+                    url: "/Home/KioskBookBarcode",
+                    data: {
+                        __RequestVerificationToken: getAntiForgeryToken(),
+                        userId: userId,
+                        bookBarcode: $("#bookBarcodeInput").val()
+                    },
+                    dataType: 'json',
+                    contentType: 'application/x-www-form-urlencoded; charset=utf-8'
+                }).then(res => {
+                    // The server liked the barcode, greet them and prompt them to scan their books
+                    console.log('res is:');
+                    console.log(res);
+                }).fail(err => {
+                    // Server didn't like that barcode, log the error and show an error message.
+                    console.log('Err is:');
+                    console.log(err);
+                    $("#errorMessage").show(500);
+                });
+            });
+
+
 
 
 

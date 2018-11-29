@@ -84,6 +84,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DataContexts\BorrowingConfiguration.cs" />
     <Compile Include="DataContexts\BookConfiguration.cs" />
     <Compile Include="DataContexts\BookDb.cs" />
     <Compile Include="DataContexts\IdentityDb.cs" />
@@ -95,6 +96,14 @@
     <Compile Include="MigrationHistory\BookMigrations\201811282133064_MakeHiddenNotesNotRequired.Designer.cs">
       <DependentUpon>201811282133064_MakeHiddenNotesNotRequired.cs</DependentUpon>
     </Compile>
+    <Compile Include="MigrationHistory\BookMigrations\201811292109350_CreateBorrowingTableWithNoContraints.cs" />
+    <Compile Include="MigrationHistory\BookMigrations\201811292109350_CreateBorrowingTableWithNoContraints.Designer.cs">
+      <DependentUpon>201811292109350_CreateBorrowingTableWithNoContraints.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MigrationHistory\BookMigrations\201811292115126_AddConstraintsToBorrowingTable.cs" />
+    <Compile Include="MigrationHistory\BookMigrations\201811292115126_AddConstraintsToBorrowingTable.Designer.cs">
+      <DependentUpon>201811292115126_AddConstraintsToBorrowingTable.cs</DependentUpon>
+    </Compile>
     <Compile Include="MigrationHistory\BookMigrations\Configuration.cs" />
     <Compile Include="MigrationHistory\IdentityMigrations\201811272000289_InitialCreate.cs" />
     <Compile Include="MigrationHistory\IdentityMigrations\201811272000289_InitialCreate.Designer.cs">
@@ -103,6 +112,7 @@
     <Compile Include="MigrationHistory\IdentityMigrations\Configuration.cs" />
     <Compile Include="Models\ApplicationUser.cs" />
     <Compile Include="Models\Book.cs" />
+    <Compile Include="Models\Borrowing.cs" />
     <Compile Include="Models\Genre.cs" />
     <Compile Include="ViewModels\SearchViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -127,6 +137,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="MigrationHistory\BookMigrations\201811282133064_MakeHiddenNotesNotRequired.resx">
       <DependentUpon>201811282133064_MakeHiddenNotesNotRequired.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MigrationHistory\BookMigrations\201811292109350_CreateBorrowingTableWithNoContraints.resx">
+      <DependentUpon>201811292109350_CreateBorrowingTableWithNoContraints.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MigrationHistory\BookMigrations\201811292115126_AddConstraintsToBorrowingTable.resx">
+      <DependentUpon>201811292115126_AddConstraintsToBorrowingTable.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MigrationHistory\IdentityMigrations\201811272000289_InitialCreate.resx">
       <DependentUpon>201811272000289_InitialCreate.cs</DependentUpon>
