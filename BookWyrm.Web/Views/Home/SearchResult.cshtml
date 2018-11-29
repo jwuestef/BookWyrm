@@ -1,0 +1,64 @@
+﻿@model BookWyrm.Data.ViewModels.SearchViewModel
+
+@{
+    ViewBag.Title = "Search Result";
+}
+
+<style>
+    .thumbnail {
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.5);
+        transition: 0.3s;
+        min-width: 40%;
+        border-radius: 5px;
+    }
+
+    .thumbnail-description {
+        min-height: 40px;
+    }
+
+    .thumbnail:hover {
+        cursor: pointer;
+        box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 1);
+    }
+</style>
+
+
+
+<h2>Search Results for "@Model.SearchTerm"</h2>
+
+<br />
+
+
+
+<div class="row">
+    <div class="col-md-1">&nbsp;</div>
+    <div class="row">
+
+        @foreach (var item in @Model.SearchResults)
+        {
+
+            <div class="col-sm-4 col-md-3">
+                <div class="thumbnail">
+                    <a href="@Url.Action("Details", "Book", new { id = item.BookId })" style="text-decoration: none;">
+                        <div class="caption">
+                            <h4 class="text-center" style="color: #ff6a05;">@item.Title</h4>
+                            <p class="text-center"><i class="glyphicon glyphicon-user light-red lighter bigger-120"></i>&nbsp;@item.Author</p>
+                            <hr />
+                            <div style="font-size: 1.25rem; text-align: justify"><em class="thumbnail-description">@item.Description</em></div>
+                        </div>
+                        <div class="caption card-footer text-center">
+                            <ul class="list-inline">
+                                <li><i class="people lighter"></i>&nbsp;7 Active Users</li>
+                                <li></li>
+                                <li><i class="glyphicon glyphicon-envelope lighter"></i><a href="#">&nbsp;Help</a></li>
+                            </ul>
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+        }
+
+    </div>
+
+</div>

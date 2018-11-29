@@ -25,10 +25,14 @@ textarea {
 
 
 
+
+
 /* Hovering over buttons should have an orange, not dark gray, border */
 .btn:hover {
     border-color: #bf5a16 !important;
 }
+
+
 
 /* Input fields that are in error state should be highlighted in red */
 .field-validation-error {
@@ -39,6 +43,8 @@ textarea {
     border: 2px solid#c9302c !important;
 }
 
+
+
 /* Used across site to keep links from being underlined by default, until hovered. */
 /* If there is an icon inside the link, use the style attribute to remove the underline no matter what*/
 .hoverable-link {
@@ -48,3 +54,28 @@ textarea {
 .hoverable-link:hover {
     text-decoration: underline !important;
 }
+
+
+
+/* Search box in the navbar */
+.add-on .input-group-btn > .btn {
+    border-left-width: 0;
+    left: -2px;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+}
+    .add-on .input-group-btn > .btn:hover,
+    .add-on .input-group-btn > .btn:focus,
+    .add-on .input-group-btn > .btn:active {
+        border-color: #222222 !important;
+    }
+
+/* Stop the glowing blue shadow */
+.add-on .form-control:focus {
+    box-shadow: none;
+    -webkit-box-shadow: none;
+    border-color: #cccccc;
+}
+
+
+

@@ -47,14 +47,12 @@ namespace BookWyrm.Web.Controllers
         public ActionResult Details(int? id)
         {
             if (id == null)
-            {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
+
             Book foundBook = _bookDb.Books.Find(id);
             if (foundBook == null)
-            {
                 return HttpNotFound();
-            }
+
             BookViewModel bookViewModel = new BookViewModel()
             {
                 BookId = foundBook.BookId,
@@ -171,11 +169,6 @@ namespace BookWyrm.Web.Controllers
                 foundBookToUpdate.MinAgeReq = bookViewModel.MinAgeReq;
                 foundBookToUpdate.HiddenNotes = bookViewModel.HiddenNotes;
 
-                //var result = _bookDb.Books.u
-
-
-
-                //_bookDb.Entry(book).State = EntityState.Modified;
                 _bookDb.SaveChanges();
                 return RedirectToAction("Index");
             }

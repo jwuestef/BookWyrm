@@ -248,6 +248,7 @@
     <Content Include="Views\Book\Details.cshtml" />
     <Content Include="Views\Book\Edit.cshtml" />
     <Content Include="Views\Book\Index.cshtml" />
+    <Content Include="Views\Home\SearchResult.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
