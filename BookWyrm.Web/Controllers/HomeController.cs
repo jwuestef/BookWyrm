@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using BookWyrm.Data.DataContexts;
@@ -133,15 +134,19 @@ namespace BookWyrm.Web.Controllers
                 }
 
                 // Now create an entry in the borrowing table
-                // TODO: create borrowing table
-
+                Borrowing newBorrowing = new Borrowing()
+                {
+                    UserId = userId,
+                    BookId = foundBook.BookId,
+                    CheckOutDateTime = DateTime.Now,
+                    DueDate = DateTime.Now.AddDays(14),
+                    CheckInDateTime = null
+                };
+                _bookDb.Borrowings.Add(newBorrowing);
+                _bookDb.SaveChanges();
 
                 // Check out for this book complete, tell the user to continue
-                return Json(new
-                {
-                    //fullName = foundUser.FirstName + " " + foundUser.LastName,
-                    //userId = foundUser.Id
-                });
+                return Json(newBorrowing);
             }
         }
 

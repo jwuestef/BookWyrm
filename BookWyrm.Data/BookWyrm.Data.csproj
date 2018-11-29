@@ -104,6 +104,14 @@
     <Compile Include="MigrationHistory\BookMigrations\201811292115126_AddConstraintsToBorrowingTable.Designer.cs">
       <DependentUpon>201811292115126_AddConstraintsToBorrowingTable.cs</DependentUpon>
     </Compile>
+    <Compile Include="MigrationHistory\BookMigrations\201811292140296_InBorrowingTableConvertBookIdFromStringToInt.cs" />
+    <Compile Include="MigrationHistory\BookMigrations\201811292140296_InBorrowingTableConvertBookIdFromStringToInt.Designer.cs">
+      <DependentUpon>201811292140296_InBorrowingTableConvertBookIdFromStringToInt.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MigrationHistory\BookMigrations\201811292158114_InBorrowingTableConvertIdFromStringToInt.cs" />
+    <Compile Include="MigrationHistory\BookMigrations\201811292158114_InBorrowingTableConvertIdFromStringToInt.Designer.cs">
+      <DependentUpon>201811292158114_InBorrowingTableConvertIdFromStringToInt.cs</DependentUpon>
+    </Compile>
     <Compile Include="MigrationHistory\BookMigrations\Configuration.cs" />
     <Compile Include="MigrationHistory\IdentityMigrations\201811272000289_InitialCreate.cs" />
     <Compile Include="MigrationHistory\IdentityMigrations\201811272000289_InitialCreate.Designer.cs">
@@ -143,6 +151,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="MigrationHistory\BookMigrations\201811292115126_AddConstraintsToBorrowingTable.resx">
       <DependentUpon>201811292115126_AddConstraintsToBorrowingTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MigrationHistory\BookMigrations\201811292140296_InBorrowingTableConvertBookIdFromStringToInt.resx">
+      <DependentUpon>201811292140296_InBorrowingTableConvertBookIdFromStringToInt.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MigrationHistory\BookMigrations\201811292158114_InBorrowingTableConvertIdFromStringToInt.resx">
+      <DependentUpon>201811292158114_InBorrowingTableConvertIdFromStringToInt.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MigrationHistory\IdentityMigrations\201811272000289_InitialCreate.resx">
       <DependentUpon>201811272000289_InitialCreate.cs</DependentUpon>
