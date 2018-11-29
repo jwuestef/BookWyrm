@@ -1,104 +1,92 @@
-﻿@model BookWyrm.Data.Models.Book
+﻿@model BookWyrm.Data.ViewModels.BookViewModel
 
 @{
-    ViewBag.Title = "Delete";
+    ViewBag.Title = "Delete " + @Model.Title;
 }
 
-<h2>Delete</h2>
-
-<h3>Are you sure you want to delete this?</h3>
-<div>
-    <h4>Book</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Title)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Title)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Author)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Author)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.YearPublished)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.YearPublished)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Genre)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Genre)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Keywords)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Keywords)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Description)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Description)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.ISBN)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.ISBN)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Barcode)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Barcode)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.MinAgeReq)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.MinAgeReq)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.HiddenNotes)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.HiddenNotes)
-        </dd>
-
-    </dl>
-
-    @using (Html.BeginForm()) {
-        @Html.AntiForgeryToken()
-
-        <div class="form-actions no-color">
-            <input type="submit" value="Delete" class="btn btn-default" /> |
-            @Html.ActionLink("Back to List", "Index")
-        </div>
+<style>
+    td {
+        padding: 10px;
     }
-</div>
+
+    td:first-of-type {
+        text-align: right;
+    }
+</style>
+
+
+<h2>Are you sure you want to delete "@Model.Title"?</h2>
+
+<hr />
+
+<table>
+    <tr>
+        <td><strong>@Html.DisplayNameFor(model => model.Title):</strong></td>
+        <td>@Html.DisplayFor(model => model.Title)</td>
+    </tr>
+    <tr>
+        <td><strong>@Html.DisplayNameFor(model => model.Author):</strong></td>
+        <td>@Html.DisplayFor(model => model.Author)</td>
+    </tr>
+    <tr>
+        <td><strong>@Html.DisplayNameFor(model => model.YearPublished):</strong></td>
+        <td>@Html.DisplayFor(model => model.YearPublished)</td>
+    </tr>
+    <tr>
+        <td><strong>@Html.DisplayNameFor(model => model.Genre):</strong></td>
+        <td>@Html.DisplayFor(model => model.Genre)</td>
+    </tr>
+    <tr>
+        <td><strong>@Html.DisplayNameFor(model => model.Keywords):</strong></td>
+        <td>@Html.DisplayFor(model => model.Keywords)</td>
+    </tr>
+    <tr>
+        <td><strong>@Html.DisplayNameFor(model => model.Description):</strong></td>
+        <td>@Html.DisplayFor(model => model.Description)</td>
+    </tr>
+    <tr>
+        <td><strong>@Html.DisplayNameFor(model => model.ISBN):</strong></td>
+        <td>@Html.DisplayFor(model => model.ISBN)</td>
+    </tr>
+    <tr>
+        <td><strong>@Html.DisplayNameFor(model => model.Barcode):</strong></td>
+        <td>@Html.DisplayFor(model => model.Barcode)</td>
+    </tr>
+    <tr>
+        <td><strong>@Html.DisplayNameFor(model => model.MinAgeReq):</strong></td>
+        <td>@Html.DisplayFor(model => model.MinAgeReq)</td>
+    </tr>
+    <tr>
+        <td><strong>@Html.DisplayNameFor(model => model.HiddenNotes):</strong></td>
+        <td>@Html.DisplayFor(model => model.HiddenNotes)</td>
+    </tr>
+</table>
+
+
+<br />
+
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-actions no-color">
+        <button type="submit" value="Delete" class="btn btn-default">
+            <span class="glyphicon glyphicon-trash" aria-hidden="true" style="text-decoration: none !important; margin-right: 5px;"></span>
+            Delete
+        </button>
+    </div>
+}
+
+
+<br />
+<br />
+<br />
+
+
+<a href="@Url.Action("Index", "Book")" class="hoverable-link">
+    <span class="glyphicon glyphicon-arrow-left" aria-hidden="true" style="text-decoration: none !important; margin-right: 5px;"></span>
+    <span>Back to list</span>
+</a>
+

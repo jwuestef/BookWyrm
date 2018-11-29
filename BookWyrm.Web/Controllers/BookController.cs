@@ -115,21 +115,34 @@ namespace BookWyrm.Web.Controllers
 
 
 
-        //// GET: Book/Edit/5
-        //[HttpGet]
-        //public ActionResult Edit(int? id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-        //    }
-        //    Book book = _bookDb.Books.Find(id);
-        //    if (book == null)
-        //    {
-        //        return HttpNotFound();
-        //    }
-        //    return View(book);
-        //}
+        // GET: Book/Edit/5
+        [HttpGet]
+        public ActionResult Edit(int? id)
+        {
+            if (id == null)
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+
+            Book foundBook = _bookDb.Books.Find(id);
+            if (foundBook == null)
+                return HttpNotFound();
+
+            BookViewModel bookViewModel = new BookViewModel()
+            {
+                BookId = foundBook.BookId,
+                Title = foundBook.Title,
+                Author = foundBook.Author,
+                YearPublished = foundBook.YearPublished,
+                Genre = foundBook.Genre,
+                Keywords = foundBook.Keywords,
+                Description = foundBook.Description,
+                Barcode = foundBook.Barcode,
+                ISBN = foundBook.ISBN,
+                MinAgeReq = foundBook.MinAgeReq,
+                HiddenNotes = foundBook.HiddenNotes
+            };
+
+            return View(bookViewModel);
+        }
 
 
 
@@ -151,34 +164,47 @@ namespace BookWyrm.Web.Controllers
 
 
 
-        //// GET: Book/Delete/5
-        //[HttpGet]
-        //public ActionResult Delete(int? id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-        //    }
-        //    Book book = _bookDb.Books.Find(id);
-        //    if (book == null)
-        //    {
-        //        return HttpNotFound();
-        //    }
-        //    return View(book);
-        //}
+        // GET: Book/Delete/5
+        [HttpGet]
+        public ActionResult Delete(int? id)
+        {
+            if (id == null)
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+
+            Book foundBook = _bookDb.Books.Find(id);
+            if (foundBook == null)
+                return HttpNotFound();
+
+            BookViewModel bookViewModel = new BookViewModel()
+            {
+                BookId = foundBook.BookId,
+                Title = foundBook.Title,
+                Author = foundBook.Author,
+                YearPublished = foundBook.YearPublished,
+                Genre = foundBook.Genre,
+                Keywords = foundBook.Keywords,
+                Description = foundBook.Description,
+                Barcode = foundBook.Barcode,
+                ISBN = foundBook.ISBN,
+                MinAgeReq = foundBook.MinAgeReq,
+                HiddenNotes = foundBook.HiddenNotes
+            };
+
+            return View(bookViewModel);
+        }
 
 
 
-        //// POST: Book/Delete/5
-        //[HttpPost, ActionName("Delete")]
-        //[ValidateAntiForgeryToken]
-        //public ActionResult DeleteConfirmed(int id)
-        //{
-        //    Book book = _bookDb.Books.Find(id);
-        //    _bookDb.Books.Remove(book);
-        //    _bookDb.SaveChanges();
-        //    return RedirectToAction("Index");
-        //}
+        // POST: Book/Delete/5
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeleteConfirmed(int id)
+        {
+            Book foundBook = _bookDb.Books.Find(id);
+            _bookDb.Books.Remove(foundBook);
+            _bookDb.SaveChanges();
+            return RedirectToAction("Index");
+        }
 
 
 
