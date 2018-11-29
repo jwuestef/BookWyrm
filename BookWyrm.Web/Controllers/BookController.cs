@@ -146,21 +146,41 @@ namespace BookWyrm.Web.Controllers
 
 
 
-        //// POST: Book/Edit/5
-        //// To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        //// more details see https://go.microsoft.com/fwlink/?LinkId=317598.
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public ActionResult Edit([Bind(Include = "BookId,Title,Author,YearPublished,Genre,Keywords,Description,ISBN,Barcode,MinAgeReq,HiddenNotes")] Book book)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        _bookDb.Entry(book).State = EntityState.Modified;
-        //        _bookDb.SaveChanges();
-        //        return RedirectToAction("Index");
-        //    }
-        //    return View(book);
-        //}
+        // POST: Book/Edit/5
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Edit(BookViewModel bookViewModel)
+        {
+            if (ModelState.IsValid)
+            {
+                Book foundBookToUpdate = _bookDb.Books.Find(bookViewModel.BookId);
+
+                if (foundBookToUpdate == null)
+                    return HttpNotFound();
+
+                foundBookToUpdate.Title = bookViewModel.Title;
+                foundBookToUpdate.Author = bookViewModel.Author;
+                foundBookToUpdate.YearPublished = bookViewModel.YearPublished;
+                foundBookToUpdate.Genre = bookViewModel.Genre;
+                foundBookToUpdate.Keywords = bookViewModel.Keywords;
+                foundBookToUpdate.Description = bookViewModel.Description;
+                foundBookToUpdate.Barcode = bookViewModel.Barcode;
+                foundBookToUpdate.ISBN = bookViewModel.ISBN;
+                foundBookToUpdate.MinAgeReq = bookViewModel.MinAgeReq;
+                foundBookToUpdate.HiddenNotes = bookViewModel.HiddenNotes;
+
+                //var result = _bookDb.Books.u
+
+
+
+                //_bookDb.Entry(book).State = EntityState.Modified;
+                _bookDb.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            return View(bookViewModel);
+        }
 
 
 
