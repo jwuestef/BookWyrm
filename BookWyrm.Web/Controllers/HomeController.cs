@@ -15,6 +15,7 @@ namespace BookWyrm.Web.Controllers
 
 
 
+        [HttpGet]
         public ActionResult Index()
         {
             return View();
@@ -22,6 +23,7 @@ namespace BookWyrm.Web.Controllers
 
 
 
+        [HttpGet]
         public ActionResult About()
         {
             ViewBag.Message = "Your application description page.";
@@ -31,6 +33,7 @@ namespace BookWyrm.Web.Controllers
 
 
 
+        [HttpGet]
         public ActionResult Contact()
         {
             ViewBag.Message = "Your contact page.";
@@ -66,6 +69,83 @@ namespace BookWyrm.Web.Controllers
                 return View("SearchResult", searchResultViewModel);
             }
         }
+
+
+
+        [HttpGet]
+        public ActionResult Kiosk()
+        {
+            return View();
+        }
+
+
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult KioskUserBarcode(string userBarcode)
+        {
+            if (String.IsNullOrWhiteSpace(userBarcode))
+            {
+                Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                return Json(new { message = "Invalid barcode, please try again" });
+            }
+
+            // We received a barcode, search the database for this user
+            using (IdentityDb _identityDb = new IdentityDb())
+            {
+                ApplicationUser foundUser = _identityDb.Users.Where(u => u.Barcode == userBarcode).FirstOrDefault();
+                if (foundUser == null)
+                {
+                    Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                    return Json(new { message = "Invalid barcode, please try again" });
+                }
+
+                string fullName = foundUser.FirstName + " " + foundUser.LastName;
+
+                // We found the user, reply and tell the user it's okay to start scanning books
+                return Json(new {
+                    fullName = foundUser.FirstName + " " + foundUser.LastName,
+                    userId = foundUser.Id
+                });
+            }
+        }
+
+
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult KioskBookBarcode(string userId, string bookBarcode)
+        {
+            if (String.IsNullOrWhiteSpace(userId) || String.IsNullOrWhiteSpace(bookBarcode))
+            {
+                Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                return Json(new { message = "Invalid barcode, please try again" });
+            }
+
+            // We received a barcode, search the database for this book
+            using (IdentityDb _identityDb = new IdentityDb())
+            {
+                ApplicationUser foundUser = _identityDb.Users.Where(u => u.Barcode == bookBarcode).FirstOrDefault();
+                if (foundUser == null)
+                {
+                    Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                    return Json(new { message = "Invalid barcode, please try again" });
+                }
+
+                string fullName = foundUser.FirstName + " " + foundUser.LastName;
+
+                // We found the user, reply and tell the user it's okay to start scanning books
+                return Json(new
+                {
+                    fullName = foundUser.FirstName + " " + foundUser.LastName,
+                    userId = foundUser.Id
+                });
+            }
+        }
+
+
+
+
 
 
 
