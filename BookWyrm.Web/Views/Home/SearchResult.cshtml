@@ -34,12 +34,12 @@
 
 <div class="row">
     <div class="col-md-1">&nbsp;</div>
-    <div class="row">
+    <div class="col-md-10">
 
         @foreach (var item in @Model.SearchResults)
         {
 
-            <div class="col-sm-4 col-md-3">
+            <div class="col-sm-6 col-md-4">
                 <div class="thumbnail">
                     <a href="@Url.Action("Details", "Book", new { id = item.BookId })" style="text-decoration: none;">
                         <div class="caption">

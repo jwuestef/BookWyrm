@@ -250,6 +250,7 @@
     <Content Include="Views\Book\Index.cshtml" />
     <Content Include="Views\Home\SearchResult.cshtml" />
     <Content Include="Views\Home\Kiosk.cshtml" />
+    <Content Include="Views\Home\BookCheckIn.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

@@ -228,7 +228,7 @@ namespace BookWyrm.Web.Controllers
                     // Check out for this book complete, return the book's information
                     return Json(new
                     {
-                        dueDate = newBorrowing.DueDate.ToString("MMM dd yyyy hh:mmtt"),
+                        dueDate = newBorrowing.DueDate.ToString("MMM dd yyyy h:mmtt"),
                         bookDetails = new
                         {
                             Title = foundBook.Title,
@@ -237,6 +237,85 @@ namespace BookWyrm.Web.Controllers
                     });
 
                 }
+            }
+        }
+
+
+
+        [HttpGet]
+        public ActionResult BookCheckIn()
+        {
+            return View();
+        }
+
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult BookCheckIn(string bookBarcode)
+        {
+            if (String.IsNullOrWhiteSpace(bookBarcode))
+            {
+                Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                return Json(new { message = "Invalid book barcode, please try again" });
+            }
+
+            // We received a barcode, search the database for this book
+            using (BookDb _bookDb = new BookDb())
+            {
+                Book foundBook = _bookDb.Books.Where(b => b.Barcode == bookBarcode).FirstOrDefault();
+                if (foundBook == null)
+                {
+                    Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                    return Json(new { message = "Invalid book barcode, please try again" });
+                }
+
+                // Check to make sure this book has been checked out by someone
+                Borrowing foundBorrowing = _bookDb.Borrowings.Where(bw =>
+                    bw.BookId == foundBook.BookId
+                    && bw.CheckInDateTime == null
+                ).FirstOrDefault();
+                if (foundBorrowing == null)
+                {
+                    Response.StatusCode = (int)HttpStatusCode.Conflict;
+                    return Json(new { message = "This book isn't checked out" });
+                }
+
+                // Get the borrower's information
+                using (IdentityDb _identityDb = new IdentityDb())
+                {
+                    ApplicationUser borrower = _identityDb.Users.Where(u => u.Id == foundBorrowing.UserId).FirstOrDefault();
+                    if (borrower == null)
+                    {
+                        Response.StatusCode = (int)HttpStatusCode.Conflict;
+                        return Json(new { message = "Could not locate user the book was checked out to" });
+                    }
+
+                    // Update the entry in the borrowing table to include today as the check-in date
+                    foundBorrowing.CheckInDateTime = DateTime.Now;
+                    _bookDb.SaveChanges();
+
+                    int daysLate = 0;
+                    if (foundBorrowing.DueDate < foundBorrowing.CheckInDateTime)
+                    {
+                        double daysLateWithDecimals = (DateTime.Now - foundBorrowing.DueDate).TotalDays;
+                        daysLate = (int)Math.Floor(daysLateWithDecimals);
+                    }
+
+                    // TODO: calculate late fee, if applicable - through today since today's script probably already ran at 12:01am
+                
+                    // Check in for this book complete, return the book's information
+                    return Json(new
+                    {
+                        Title = foundBook.Title,
+                        Author = foundBook.Author,
+                        DueDate = foundBorrowing.DueDate.ToString("MMM dd yyyy h:mmtt"),
+                        DaysLate = daysLate,
+                        Borrower = borrower.FirstName + " " + borrower.LastName
+                    });
+
+                }
+
+
             }
         }
 

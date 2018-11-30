@@ -27,6 +27,7 @@
                     <li>@Html.ActionLink("Users", "Index", "ApplicationUser")</li>
                     <li>@Html.ActionLink("Books", "Index", "Book")</li>
                     <li>@Html.ActionLink("Self-Service Kiosk", "Kiosk", "Home")</li>
+                    <li>@Html.ActionLink("Check-In", "BookCheckIn", "Home")</li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
                     @using (Html.BeginForm("TriggerSearch", "Home", FormMethod.Post, new { @class = "navbar-form" }))
