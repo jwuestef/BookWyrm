@@ -5,6 +5,9 @@ using Microsoft.Owin.Security;
 
 namespace BookWyrm.Data.ViewModels
 {
+
+
+
     public class IndexViewModel
     {
         public bool HasPassword { get; set; }
@@ -14,16 +17,15 @@ namespace BookWyrm.Data.ViewModels
         public bool BrowserRemembered { get; set; }
     }
 
+
+
     public class ManageLoginsViewModel
     {
         public IList<UserLoginInfo> CurrentLogins { get; set; }
         public IList<AuthenticationDescription> OtherLogins { get; set; }
     }
 
-    public class FactorViewModel
-    {
-        public string Purpose { get; set; }
-    }
+
 
     public class SetPasswordViewModel
     {
@@ -38,6 +40,8 @@ namespace BookWyrm.Data.ViewModels
         [Compare("NewPassword", ErrorMessage = "The new password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
     }
+
+
 
     public class ChangePasswordViewModel
     {
@@ -58,6 +62,8 @@ namespace BookWyrm.Data.ViewModels
         public string ConfirmPassword { get; set; }
     }
 
+
+
     public class AddPhoneNumberViewModel
     {
         [Required]
@@ -65,6 +71,8 @@ namespace BookWyrm.Data.ViewModels
         [Display(Name = "Phone Number")]
         public string Number { get; set; }
     }
+
+
 
     public class VerifyPhoneNumberViewModel
     {
@@ -78,9 +86,6 @@ namespace BookWyrm.Data.ViewModels
         public string PhoneNumber { get; set; }
     }
 
-    public class ConfigureTwoFactorViewModel
-    {
-        public string SelectedProvider { get; set; }
-        public ICollection<System.Web.Mvc.SelectListItem> Providers { get; set; }
-    }
+
+
 }
