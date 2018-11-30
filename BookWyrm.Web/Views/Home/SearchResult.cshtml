@@ -49,11 +49,16 @@
                             <div style="font-size: 1.25rem; text-align: justify"><em class="thumbnail-description">@item.Description.Truncate(500)</em></div>
                         </div>
                         <div class="caption card-footer text-center">
-                            <ul class="list-inline">
-                                <li><i class="people lighter"></i>&nbsp;7 Active Users</li>
-                                <li></li>
-                                <li><i class="glyphicon glyphicon-envelope lighter"></i><a href="#">&nbsp;Help</a></li>
-                            </ul>
+                            @if (item.Availability == true)
+                            {
+                                <span class="glyphicon glyphicon-ok" aria-hidden="true" style="color: #5cb85c; margin-right: 1rem;"></span>
+                                <span>Checked In</span>
+                            }
+                            else
+                            {
+                                <span class="glyphicon glyphicon-remove" aria-hidden="true" style="color: #c9302c; margin-right: 1rem;"></span>
+                                <span>Checked Out</span>
+                            }
                         </div>
                     </a>
                 </div>
