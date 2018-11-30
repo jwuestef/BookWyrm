@@ -112,6 +112,14 @@
     <Compile Include="MigrationHistory\BookMigrations\201811292158114_InBorrowingTableConvertIdFromStringToInt.Designer.cs">
       <DependentUpon>201811292158114_InBorrowingTableConvertIdFromStringToInt.cs</DependentUpon>
     </Compile>
+    <Compile Include="MigrationHistory\BookMigrations\201811301344006_InBorrowingTableTroubleshootingPrimaryKey.cs" />
+    <Compile Include="MigrationHistory\BookMigrations\201811301344006_InBorrowingTableTroubleshootingPrimaryKey.Designer.cs">
+      <DependentUpon>201811301344006_InBorrowingTableTroubleshootingPrimaryKey.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MigrationHistory\BookMigrations\201811301352100_InBorrowingTableTurnIdToGuid.cs" />
+    <Compile Include="MigrationHistory\BookMigrations\201811301352100_InBorrowingTableTurnIdToGuid.Designer.cs">
+      <DependentUpon>201811301352100_InBorrowingTableTurnIdToGuid.cs</DependentUpon>
+    </Compile>
     <Compile Include="MigrationHistory\BookMigrations\Configuration.cs" />
     <Compile Include="MigrationHistory\IdentityMigrations\201811272000289_InitialCreate.cs" />
     <Compile Include="MigrationHistory\IdentityMigrations\201811272000289_InitialCreate.Designer.cs">
@@ -157,6 +165,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="MigrationHistory\BookMigrations\201811292158114_InBorrowingTableConvertIdFromStringToInt.resx">
       <DependentUpon>201811292158114_InBorrowingTableConvertIdFromStringToInt.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MigrationHistory\BookMigrations\201811301344006_InBorrowingTableTroubleshootingPrimaryKey.resx">
+      <DependentUpon>201811301344006_InBorrowingTableTroubleshootingPrimaryKey.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MigrationHistory\BookMigrations\201811301352100_InBorrowingTableTurnIdToGuid.resx">
+      <DependentUpon>201811301352100_InBorrowingTableTurnIdToGuid.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MigrationHistory\IdentityMigrations\201811272000289_InitialCreate.resx">
       <DependentUpon>201811272000289_InitialCreate.cs</DependentUpon>

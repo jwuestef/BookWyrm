@@ -17,6 +17,7 @@ namespace BookWyrm.Data.DataContexts
             // Then override primary keys
 
             //HasKey(c => c.Id);
+            HasKey(b => b.BorrowingId);
 
 
 
@@ -29,6 +30,9 @@ namespace BookWyrm.Data.DataContexts
             //Property(c => c.Name)
             //.IsRequired()
             //.HasMaxLength(255);
+
+            Property(b => b.BorrowingId)
+                .HasDatabaseGeneratedOption(System.ComponentModel.DataAnnotations.Schema.DatabaseGeneratedOption.Identity);
 
             Property(b => b.UserId)
                 .IsRequired();

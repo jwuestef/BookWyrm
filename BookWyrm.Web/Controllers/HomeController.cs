@@ -88,7 +88,7 @@ namespace BookWyrm.Web.Controllers
             if (String.IsNullOrWhiteSpace(userBarcode))
             {
                 Response.StatusCode = (int)HttpStatusCode.BadRequest;
-                return Json(new { message = "Invalid barcode, please try again" });
+                return Json(new { message = "Invalid user barcode, please try again" });
             }
 
             // We received a barcode, search the database for this user
@@ -98,12 +98,13 @@ namespace BookWyrm.Web.Controllers
                 if (foundUser == null)
                 {
                     Response.StatusCode = (int)HttpStatusCode.BadRequest;
-                    return Json(new { message = "Invalid barcode, please try again" });
+                    return Json(new { message = "Invalid user barcode, please try again" });
                 }
 
                 string fullName = foundUser.FirstName + " " + foundUser.LastName;
 
                 // We found the user, reply and tell the user it's okay to start scanning books
+                // TODO: return list of their currently checked out books and display on screen
                 return Json(new {
                     fullName = foundUser.FirstName + " " + foundUser.LastName,
                     userId = foundUser.Id
@@ -120,7 +121,7 @@ namespace BookWyrm.Web.Controllers
             if (String.IsNullOrWhiteSpace(userId) || String.IsNullOrWhiteSpace(bookBarcode))
             {
                 Response.StatusCode = (int)HttpStatusCode.BadRequest;
-                return Json(new { message = "Invalid barcode, please try again" });
+                return Json(new { message = "Invalid user or book barcode, please try again" });
             }
 
             // We received a barcode, search the database for this book
@@ -130,23 +131,57 @@ namespace BookWyrm.Web.Controllers
                 if (foundBook == null)
                 {
                     Response.StatusCode = (int)HttpStatusCode.BadRequest;
-                    return Json(new { message = "Invalid barcode, please try again" });
+                    return Json(new { message = "Invalid book barcode, please try again" });
                 }
 
-                // Now create an entry in the borrowing table
-                Borrowing newBorrowing = new Borrowing()
+                using (IdentityDb _identityDb = new IdentityDb())
                 {
-                    UserId = userId,
-                    BookId = foundBook.BookId,
-                    CheckOutDateTime = DateTime.Now,
-                    DueDate = DateTime.Now.AddDays(14),
-                    CheckInDateTime = null
-                };
-                _bookDb.Borrowings.Add(newBorrowing);
-                _bookDb.SaveChanges();
+                    ApplicationUser foundUser = _identityDb.Users.Find(userId);
+                    if (foundUser == null)
+                    {
+                        Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                        return Json(new { message = "Invalid user barcode, please try again" });
+                    }
 
-                // Check out for this book complete, tell the user to continue
-                return Json(newBorrowing);
+                    // Make sure the user is old enough to meet the book's minimum age requirement
+                    var today = DateTime.Today;
+                    var age = today.Year - foundUser.BirthDate.Year;
+                    if (foundUser.BirthDate > today.AddYears(-age))
+                        age--;
+
+                    if (age < foundBook.MinAgeReq)
+                    {
+                        Response.StatusCode = (int)HttpStatusCode.Forbidden;
+                        return Json(new { message = "You do not meet the minimum age requirement to check out this book" });
+                    }
+
+                    // Now create an entry in the borrowing table
+                    Borrowing newBorrowing = new Borrowing()
+                    {
+                        BorrowingId = Guid.NewGuid(),
+                        UserId = userId,
+                        BookId = foundBook.BookId,
+                        CheckOutDateTime = DateTime.Now,
+                        DueDate = DateTime.Now.AddDays(14),
+                        CheckInDateTime = null
+                    };
+                    _bookDb.Borrowings.Add(newBorrowing);
+                    _bookDb.SaveChanges();
+
+                    // Check out for this book complete, return the book's information
+                    return Json(new
+                    {
+                        newBorrowing = newBorrowing,
+                        bookDetails = new
+                        {
+                            Title = foundBook.Title,
+                            Author = foundBook.Author,
+                            ISBN = foundBook.ISBN,
+                            Barcode = foundBook.Barcode
+                        }
+                    });
+
+                }
             }
         }
 

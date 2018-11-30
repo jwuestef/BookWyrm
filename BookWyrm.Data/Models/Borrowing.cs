@@ -9,7 +9,7 @@ namespace BookWyrm.Data.Models
     public class Borrowing
     {
 
-        public int BorrowingId { get; set; }
+        public Guid BorrowingId { get; set; }
 
         public string UserId { get; set; }
 
