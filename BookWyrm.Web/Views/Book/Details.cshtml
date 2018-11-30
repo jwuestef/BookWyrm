@@ -21,6 +21,17 @@
 
 <table>
     <tr>
+        <td><strong>@Html.LabelFor(model => model.Availability):</strong></td>
+        @if (Model.Availability == true)
+        {
+            <td><span class="glyphicon glyphicon-ok" aria-hidden="true" style="color: #5cb85c;"></span></td>
+        }
+        else
+        {
+            <td><span class="glyphicon glyphicon-remove" aria-hidden="true" style="color: #c9302c;"></span></td>
+        }
+    </tr>
+    <tr>
         <td><strong>@Html.DisplayNameFor(model => model.Title):</strong></td>
         <td>@Html.DisplayFor(model => model.Title)</td>
     </tr>

@@ -352,6 +352,7 @@ namespace BookWyrm.Web.Controllers
             ApplicationUser applicationUser = _identityDb.Users.Find(id);
             _identityDb.Users.Remove(applicationUser);
             await _identityDb.SaveChangesAsync();
+            // TODO: delete all entries in the borrowing table
             return RedirectToAction("Index");
         }
 

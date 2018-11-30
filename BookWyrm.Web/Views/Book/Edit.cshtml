@@ -18,6 +18,18 @@
         @Html.HiddenFor(model => model.BookId)
 
         <div class="form-group">
+            @Html.LabelFor(model => model.Availability)
+            @if (Model.Availability == true)
+            {
+                <span class="glyphicon glyphicon-ok" aria-hidden="true" style="color: #5cb85c;"></span>
+            }
+            else
+            {
+                <span class="glyphicon glyphicon-remove" aria-hidden="true" style="color: #c9302c;"></span>
+            }
+        </div>
+
+        <div class="form-group">
             @Html.LabelFor(model => model.Title)
             @Html.TextBoxFor(model => model.Title, new { @class = "form-control" })
             @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })

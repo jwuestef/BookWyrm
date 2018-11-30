@@ -22,21 +22,21 @@ namespace BookWyrm.Web.Controllers
         [HttpGet]
         public ActionResult Index()
         {
-            // Turn the "Book" model we get from the database into the appropriate view model
-            IEnumerable<BookViewModel> allBooks = _bookDb.Books.Select(b => new BookViewModel
-            {
-                BookId = b.BookId,
-                Title = b.Title,
-                Author = b.Author,
-                YearPublished = b.YearPublished,
-                Genre = b.Genre,
-                Keywords = b.Keywords,
-                Description = b.Keywords,
-                Barcode = b.Barcode,
-                ISBN = b.ISBN,
-                MinAgeReq = b.MinAgeReq,
-                HiddenNotes = b.HiddenNotes
-            });
+            IEnumerable<BookViewModel> allBooks = _bookDb.Books.Select(book => new BookViewModel
+                {
+                    BookId = book.BookId,
+                    Title = book.Title,
+                    Author = book.Author,
+                    YearPublished = book.YearPublished,
+                    Genre = book.Genre,
+                    Keywords = book.Keywords,
+                    Description = book.Keywords,
+                    Barcode = book.Barcode,
+                    ISBN = book.ISBN,
+                    MinAgeReq = book.MinAgeReq,
+                    HiddenNotes = book.HiddenNotes,
+                    Availability = !_bookDb.Borrowings.Any(bw => bw.BookId == book.BookId && bw.CheckInDateTime == null)
+                });
             return View(allBooks);
         }
 
@@ -65,7 +65,8 @@ namespace BookWyrm.Web.Controllers
                 Barcode = foundBook.Barcode,
                 ISBN = foundBook.ISBN,
                 MinAgeReq = foundBook.MinAgeReq,
-                HiddenNotes = foundBook.HiddenNotes
+                HiddenNotes = foundBook.HiddenNotes,
+                Availability = !_bookDb.Borrowings.Any(bw => bw.BookId == foundBook.BookId && bw.CheckInDateTime == null)
             };
             return View(bookViewModel);
         }
@@ -136,7 +137,8 @@ namespace BookWyrm.Web.Controllers
                 Barcode = foundBook.Barcode,
                 ISBN = foundBook.ISBN,
                 MinAgeReq = foundBook.MinAgeReq,
-                HiddenNotes = foundBook.HiddenNotes
+                HiddenNotes = foundBook.HiddenNotes,
+                Availability = !_bookDb.Borrowings.Any(bw => bw.BookId == foundBook.BookId && bw.CheckInDateTime == null)
             };
 
             return View(bookViewModel);
@@ -200,7 +202,8 @@ namespace BookWyrm.Web.Controllers
                 Barcode = foundBook.Barcode,
                 ISBN = foundBook.ISBN,
                 MinAgeReq = foundBook.MinAgeReq,
-                HiddenNotes = foundBook.HiddenNotes
+                HiddenNotes = foundBook.HiddenNotes,
+                Availability = !_bookDb.Borrowings.Any(bw => bw.BookId == foundBook.BookId && bw.CheckInDateTime == null)
             };
 
             return View(bookViewModel);
@@ -216,6 +219,7 @@ namespace BookWyrm.Web.Controllers
             Book foundBook = _bookDb.Books.Find(id);
             _bookDb.Books.Remove(foundBook);
             _bookDb.SaveChanges();
+            // TODO: delete all entries in the borrowing table
             return RedirectToAction("Index");
         }
 

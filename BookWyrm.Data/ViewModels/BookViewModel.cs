@@ -40,5 +40,7 @@ namespace BookWyrm.Data.ViewModels
 
         [Display(Name = "Hidden Notes")]
         public string HiddenNotes { get; set; }
+
+        public bool? Availability { get; set; }
     }
 }

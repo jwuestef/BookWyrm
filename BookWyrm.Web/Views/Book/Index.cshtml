@@ -7,7 +7,9 @@
 <style>
     td, th {
         text-align: center;
+        vertical-align: middle !important;
     }
+
 </style>
 
 
@@ -22,12 +24,11 @@
 <table class="table table-striped">
     <tr>
         <th></th>
+        <th>Availablity</th>
         <th>@Html.DisplayNameFor(model => model.Title)</th>
         <th>@Html.DisplayNameFor(model => model.Author)</th>
         <th>@Html.DisplayNameFor(model => model.YearPublished)</th>
         <th>@Html.DisplayNameFor(model => model.Genre)</th>
-        <th>@Html.DisplayNameFor(model => model.ISBN)</th>
-        <th>@Html.DisplayNameFor(model => model.Barcode)</th>
         <th>@Html.DisplayNameFor(model => model.MinAgeReq)</th>
         <th></th>
     </tr>
@@ -40,20 +41,26 @@
                 <span>View</span>
             </a>
         </td>
+        @if (item.Availability == true)
+        {
+            <td><span class="glyphicon glyphicon-ok" aria-hidden="true" style="color: #5cb85c;"></span></td>
+        }
+        else
+        {
+            <td><span class="glyphicon glyphicon-remove" aria-hidden="true" style="color: #c9302c;"></span></td>
+        }
         <td>@Html.DisplayFor(modelItem => item.Title)</td>
         <td>@Html.DisplayFor(modelItem => item.Author)</td>
         <td>@Html.DisplayFor(modelItem => item.YearPublished)</td>
         <td>@Html.DisplayFor(modelItem => item.Genre)</td>
-        <td>@Html.DisplayFor(modelItem => item.ISBN)</td>
-        <td>@Html.DisplayFor(modelItem => item.Barcode)</td>
         <td>@Html.DisplayFor(modelItem => item.MinAgeReq)</td>
         <td>
-            <a href="@Url.Action("Edit", "Book", new { id = item.BookId })" class="hoverable-link">
+            <a href="@Url.Action("Edit", "Book", new { id = item.BookId })" class="hoverable-link" style="line-height: 2.5rem;">
                 <span class="glyphicon glyphicon-pencil" aria-hidden="true" style="text-decoration: none !important; margin-right: 5px;"></span>
                 <span>Edit</span>
             </a>
-            <span style="margin: 0px 10px;">|</span>
-            <a href="@Url.Action("Delete", "Book", new { id = item.BookId })" class="hoverable-link">
+            <br />
+            <a href="@Url.Action("Delete", "Book", new { id = item.BookId })" class="hoverable-link" style="line-height: 2.5rem;">
                 <span class="glyphicon glyphicon-trash" aria-hidden="true" style="text-decoration: none !important; margin-right: 5px;"></span>
                 <span>Delete</span>
             </a>
