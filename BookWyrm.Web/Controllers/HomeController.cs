@@ -178,7 +178,7 @@ namespace BookWyrm.Web.Controllers
                     }
 
                     // Check to make sure this user doesn't already have this book checked out - no duplicate checkouts allowed
-                    var isAlreadyCurrentlyCheckedOutBySameUser = _bookDb.Borrowings.Any(bw => 
+                    bool isAlreadyCurrentlyCheckedOutBySameUser = _bookDb.Borrowings.Any(bw => 
                         bw.BookId == foundBook.BookId
                         && bw.UserId == foundUser.Id
                         && bw.CheckInDateTime == null
@@ -190,7 +190,7 @@ namespace BookWyrm.Web.Controllers
                     }
 
                     // Check to make sure this book isn't checked out by someone else - no duplicate checkouts allowed
-                    var isAlreadyCurrentlyCheckedOutBySomeoneElse = _bookDb.Borrowings.Any(bw =>
+                    bool isAlreadyCurrentlyCheckedOutBySomeoneElse = _bookDb.Borrowings.Any(bw =>
                         bw.BookId == foundBook.BookId
                         && bw.CheckInDateTime == null
                     );
@@ -200,9 +200,19 @@ namespace BookWyrm.Web.Controllers
                         return Json(new { message = "Someone else has this book checked out - please contact a librarian" });
                     }
 
+                    // Check to make sure this user hasn't hit the checkout limit
+                    var numCheckouts = _bookDb.Borrowings.Count(bw =>
+                        bw.UserId == foundUser.Id && bw.CheckInDateTime == null
+                    );
+                    if (numCheckouts >= 3)
+                    {
+                        Response.StatusCode = (int)HttpStatusCode.Forbidden;
+                        return Json(new { message = "You have too many books checked out right now" });
+                    }
+
                     // Make sure the user is old enough to meet the book's minimum age requirement
-                    var today = DateTime.Today;
-                    var age = today.Year - foundUser.BirthDate.Year;
+                    DateTime today = DateTime.Today;
+                    int age = today.Year - foundUser.BirthDate.Year;
                     if (foundUser.BirthDate > today.AddYears(-age))
                         age--;
 
@@ -312,10 +322,7 @@ namespace BookWyrm.Web.Controllers
                         DaysLate = daysLate,
                         Borrower = borrower.FirstName + " " + borrower.LastName
                     });
-
                 }
-
-
             }
         }
 
