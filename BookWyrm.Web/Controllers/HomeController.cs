@@ -56,7 +56,7 @@ namespace BookWyrm.Web.Controllers
             using (BookDb _bookDb = new BookDb())
             {
                 // Find matching books in the database
-                IEnumerable<Book> searchResult = _bookDb.Books.Where(b =>
+                IEnumerable<BookViewModel> searchResult = _bookDb.Books.Where(b =>
                     b.Title.Contains(query) ||
                     b.Author.Contains(query) ||
                     b.Genre.Contains(query) ||
@@ -64,7 +64,21 @@ namespace BookWyrm.Web.Controllers
                     b.Description.Contains(query) ||
                     b.Barcode.Contains(query) ||
                     b.ISBN.Contains(query)
-                ).ToList();
+                ).Select(book => new BookViewModel
+                {
+                    BookId = book.BookId,
+                    Title = book.Title,
+                    Author = book.Author,
+                    YearPublished = book.YearPublished,
+                    Genre = book.Genre,
+                    Keywords = book.Keywords,
+                    Description = book.Description,
+                    Barcode = book.Barcode,
+                    ISBN = book.ISBN,
+                    MinAgeReq = book.MinAgeReq,
+                    HiddenNotes = book.HiddenNotes,
+                    Availability = !_bookDb.Borrowings.Any(bw => bw.BookId == book.BookId && bw.CheckInDateTime == null)
+                }).ToList();
 
                 SearchViewModel searchResultViewModel = new SearchViewModel() { SearchTerm = query, SearchResults = searchResult };
 

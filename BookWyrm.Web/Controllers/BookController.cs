@@ -30,7 +30,7 @@ namespace BookWyrm.Web.Controllers
                     YearPublished = book.YearPublished,
                     Genre = book.Genre,
                     Keywords = book.Keywords,
-                    Description = book.Keywords,
+                    Description = book.Description,
                     Barcode = book.Barcode,
                     ISBN = book.ISBN,
                     MinAgeReq = book.MinAgeReq,

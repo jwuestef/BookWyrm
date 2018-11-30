@@ -11,7 +11,7 @@ namespace BookWyrm.Data.ViewModels
     {
         public string SearchTerm { get; set; }
 
-        public IEnumerable<Book> SearchResults { get; set; }
+        public IEnumerable<BookViewModel> SearchResults { get; set; }
 
 
     }

@@ -1,4 +1,6 @@
 ﻿@model BookWyrm.Data.ViewModels.SearchViewModel
+@using BookWyrm.Data.Services;
+
 
 @{
     ViewBag.Title = "Search Result";
@@ -44,7 +46,7 @@
                             <h4 class="text-center" style="color: #ff6a05;">@item.Title</h4>
                             <p class="text-center"><i class="glyphicon glyphicon-user light-red lighter bigger-120"></i>&nbsp;@item.Author</p>
                             <hr />
-                            <div style="font-size: 1.25rem; text-align: justify"><em class="thumbnail-description">@item.Description</em></div>
+                            <div style="font-size: 1.25rem; text-align: justify"><em class="thumbnail-description">@item.Description.Truncate(500)</em></div>
                         </div>
                         <div class="caption card-footer text-center">
                             <ul class="list-inline">
