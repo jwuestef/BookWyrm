@@ -358,6 +358,31 @@ namespace BookWyrm.Web.Controllers
 
 
 
+        [HttpGet]
+        public ActionResult DisplayTransactionTable(string id)
+        {
+            // Find all of the transactions in the table for this user
+            using (TransactionDb _transactionDB = new TransactionDb())
+            {
+                using (BookDb _bookDb = new BookDb())
+                {
+                    var allTransactionsForThisUser = _transactionDB.Transactions.Join(_bookDb.Books,
+                        t => t.BookId,
+                        bk => bk.BookId,
+                        (transaction, book) => new
+                        {
+
+                        }
+                    );
+                    // We should also bring in the book data - DO A JOIN INSTEAD
+
+                }
+            }
+            return View();
+        }
+
+
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)

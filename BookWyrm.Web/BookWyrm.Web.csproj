@@ -244,6 +244,7 @@
     <Content Include="Views\Home\SearchResult.cshtml" />
     <Content Include="Views\Home\Kiosk.cshtml" />
     <Content Include="Views\Home\BookCheckIn.cshtml" />
+    <Content Include="Views\ApplicationUser\DisplayTransactionTable.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
