@@ -41,7 +41,7 @@
     </tr>
     <tr>
         <td><strong>@Html.DisplayNameFor(model => model.Balance):</strong></td>
-        <td>$@Html.DisplayFor(model => model.Balance)</td>
+        <td>@string.Format("{0:C}", Model.Balance)</td>
     </tr>
     <tr>
         <td><strong>@Html.DisplayNameFor(model => model.Barcode):</strong></td>
