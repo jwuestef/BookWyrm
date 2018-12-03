@@ -311,8 +311,9 @@ namespace BookWyrm.Web.Controllers
                         daysLate = (int)Math.Floor(daysLateWithDecimals);
                     }
 
-                    // TODO: calculate late fee, if applicable - through today since today's script probably already ran at 12:01am
-                
+                    // TODO: Add late fee, if applicable - only for today since today's script already ran on startup
+                    // TODO: add in call to chron job on index action of this home controller to make sure balances are up to date
+
                     // Check in for this book complete, return the book's information
                     return Json(new
                     {

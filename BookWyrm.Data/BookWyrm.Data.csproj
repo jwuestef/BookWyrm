@@ -88,6 +88,7 @@
     <Compile Include="DataContexts\BookConfiguration.cs" />
     <Compile Include="DataContexts\BookDb.cs" />
     <Compile Include="DataContexts\IdentityDb.cs" />
+    <Compile Include="DataContexts\TransactionDb.cs" />
     <Compile Include="MigrationHistory\BookMigrations\201811281931458_InitialCreate.cs" />
     <Compile Include="MigrationHistory\BookMigrations\201811281931458_InitialCreate.Designer.cs">
       <DependentUpon>201811281931458_InitialCreate.cs</DependentUpon>
@@ -125,11 +126,31 @@
     <Compile Include="MigrationHistory\IdentityMigrations\201811272000289_InitialCreate.Designer.cs">
       <DependentUpon>201811272000289_InitialCreate.cs</DependentUpon>
     </Compile>
+    <Compile Include="MigrationHistory\IdentityMigrations\201812032030020_ChangeApplicationUserBalanceFromIntToDouble.cs" />
+    <Compile Include="MigrationHistory\IdentityMigrations\201812032030020_ChangeApplicationUserBalanceFromIntToDouble.Designer.cs">
+      <DependentUpon>201812032030020_ChangeApplicationUserBalanceFromIntToDouble.cs</DependentUpon>
+    </Compile>
     <Compile Include="MigrationHistory\IdentityMigrations\Configuration.cs" />
+    <Compile Include="MigrationHistory\TransactionMigrations\201812031412237_InitialCreate.cs" />
+    <Compile Include="MigrationHistory\TransactionMigrations\201812031412237_InitialCreate.Designer.cs">
+      <DependentUpon>201812031412237_InitialCreate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MigrationHistory\TransactionMigrations\201812031454082_CreateChronJobTable.cs" />
+    <Compile Include="MigrationHistory\TransactionMigrations\201812031454082_CreateChronJobTable.Designer.cs">
+      <DependentUpon>201812031454082_CreateChronJobTable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MigrationHistory\TransactionMigrations\201812031635038_AddRandomKeyColumnToChronJobTable.cs" />
+    <Compile Include="MigrationHistory\TransactionMigrations\201812031635038_AddRandomKeyColumnToChronJobTable.Designer.cs">
+      <DependentUpon>201812031635038_AddRandomKeyColumnToChronJobTable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MigrationHistory\TransactionMigrations\Configuration.cs" />
     <Compile Include="Models\ApplicationUser.cs" />
     <Compile Include="Models\Book.cs" />
     <Compile Include="Models\Borrowing.cs" />
+    <Compile Include="Models\ChronJob.cs" />
     <Compile Include="Models\Genre.cs" />
+    <Compile Include="Models\Transaction.cs" />
+    <Compile Include="Services\ChronJobService.cs" />
     <Compile Include="Services\StringExt.cs" />
     <Compile Include="ViewModels\SearchViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -175,6 +196,18 @@
     </EmbeddedResource>
     <EmbeddedResource Include="MigrationHistory\IdentityMigrations\201811272000289_InitialCreate.resx">
       <DependentUpon>201811272000289_InitialCreate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MigrationHistory\IdentityMigrations\201812032030020_ChangeApplicationUserBalanceFromIntToDouble.resx">
+      <DependentUpon>201812032030020_ChangeApplicationUserBalanceFromIntToDouble.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MigrationHistory\TransactionMigrations\201812031412237_InitialCreate.resx">
+      <DependentUpon>201812031412237_InitialCreate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MigrationHistory\TransactionMigrations\201812031454082_CreateChronJobTable.resx">
+      <DependentUpon>201812031454082_CreateChronJobTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MigrationHistory\TransactionMigrations\201812031635038_AddRandomKeyColumnToChronJobTable.resx">
+      <DependentUpon>201812031635038_AddRandomKeyColumnToChronJobTable.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

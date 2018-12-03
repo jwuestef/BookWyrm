@@ -9,6 +9,11 @@ namespace BookWyrm.Data.ViewModels
 {
     public class BookViewModel
     {
+
+        // Strings are nullable, so string-based properties are OPTIONAL BY DEFAULT. Add [Required] if you want it mandatory. 
+        // Integers aren't nullable, so others are REQUIRED BY DEFAULT. Add ? to be int? to make it optional
+
+
         public int BookId { get; set; }
 
         [Required(ErrorMessage = "Title is required.")]

@@ -28,7 +28,7 @@ namespace BookWyrm.Data.ViewModels
         [Display(Name = "Date of Birth")]
         public DateTime BirthDate { get; set; }
 
-        public int Balance { get; set; }
+        public double Balance { get; set; }
 
         public string Barcode { get; set; }
 

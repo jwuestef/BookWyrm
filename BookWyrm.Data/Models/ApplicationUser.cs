@@ -21,7 +21,7 @@ namespace BookWyrm.Data.Models
 
         public string Address { get; set; }
 
-        public int Balance { get; set; }
+        public double Balance { get; set; }
 
         public string Barcode { get; set; }
 
