@@ -359,26 +359,51 @@ namespace BookWyrm.Web.Controllers
 
 
         [HttpGet]
-        public ActionResult DisplayTransactionTable(string id)
+        public ActionResult TransactionTable(string id, string fullName)
         {
             // Find all of the transactions in the table for this user
             using (TransactionDb _transactionDB = new TransactionDb())
             {
                 using (BookDb _bookDb = new BookDb())
                 {
-                    var allTransactionsForThisUser = _transactionDB.Transactions.Join(_bookDb.Books,
-                        t => t.BookId,
-                        bk => bk.BookId,
-                        (transaction, book) => new
+                    // Can't do a join to get the book's title and author too, since it's in different DB contexts
+                    // Instead get the list of all transactions and then loop over it, getting details for each transaction one by one
+                    List<Transaction> allTransactionsForThisUser = _transactionDB.Transactions.Where(t => t.PersonId == id).ToList();
+                    List<TransactionTableViewModel> allTransactionsForThisUserWithDetails = new List<TransactionTableViewModel>();
+
+                    allTransactionsForThisUser.ForEach(eachTransaction =>
+                    {
+                        // Get the details for this book
+                        var bookDetails = _bookDb.Books.Where(bk => bk.BookId == eachTransaction.BookId).FirstOrDefault();
+                        if (bookDetails == null)
+                            throw new KeyNotFoundException("BookId not found in database, can not populate table with book title/author.");
+                        // Then add this instance to the overall list of view models
+                        allTransactionsForThisUserWithDetails.Add(new TransactionTableViewModel()
                         {
+                            DateApplied = eachTransaction.DateApplied,
+                            Amount = eachTransaction.Amount,
+                            BookTitle = bookDetails.Title,
+                            BookAuthor = bookDetails.Author,
+                            Notes = eachTransaction.Notes
+                        });
+                    });
 
-                        }
-                    );
-                    // We should also bring in the book data - DO A JOIN INSTEAD
+                    // Send the user's full name to the view too
+                    ViewData["FullName"] = fullName;
 
+                    return View(allTransactionsForThisUserWithDetails);
                 }
             }
-            return View();
+        }
+
+
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult AddTransaction()
+        {
+            // TODO: implementation
+            return RedirectToAction("Index");
         }
 
 

@@ -70,7 +70,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.Balance)
             @string.Format("{0:C}", Model.Balance)
-            <a href="@Url.Action("DisplayTransactionTable", "ApplicationUser", new { id = Model.Id })" class="btn btn-default btn-sm" style="margin-left: 75px;">Adjust</a>
+            <a href="@Url.Action("TransactionTable", "ApplicationUser", new { id = Model.Id, fullName = Model.FirstName + ' ' + Model.LastName })" class="btn btn-default btn-sm" style="margin-left: 75px;">Adjust</a>
         </div>
 
         <div class="form-group">
